@@ -4,6 +4,7 @@ import { HomePage } from "../pages/home";
 import { VitrinaPage } from "../pages/vitrina";
 import { SignPage } from "../pages/sign";
 import { ProfilePage } from "../pages/profile";
+import { FormPage } from "../pages/form";
 
 export const Router = () => {
 	return (
@@ -12,6 +13,7 @@ export const Router = () => {
 			<Route path="/vitrina" element={<VitrinaPage />} />
 			<Route path="/sign" element={<SignPage />} />
 			<Route path="/profile" element={<ProfilePage />} />
+			<Route path="/add" element={<FormPage />} />
 		</Routes>
 	);
 };
