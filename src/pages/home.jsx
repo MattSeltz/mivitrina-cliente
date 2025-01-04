@@ -10,13 +10,13 @@ export const HomePage = () => {
 
 				<div className="gap-10 hidden md:flex">
 					<Link
-						to="/sign"
+						to="/signUp"
 						className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
 					>
 						REGISTRARSE
 					</Link>
 					<Link
-						to="/sign"
+						to="/signIn"
 						className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
 					>
 						INICIAR SESIÓN

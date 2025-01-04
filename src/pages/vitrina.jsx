@@ -1,6 +1,21 @@
+import { Link } from "react-router-dom";
+
 export const VitrinaPage = () => {
 	return (
 		<main className="flex flex-col gap-10 p-10">
+			<Link
+				to={"/site"}
+				className="hidden absolute top-5 right-5 p-3 rounded-md bg-blue-500 transition-colors hover:bg-blue-600 md:block"
+			>
+				EDITAR
+			</Link>
+			<Link
+				to={"/profile"}
+				className="shadow-sm absolute top-5 right-5 flex justify-center items-center shadow-black font-bold rounded-full h-10 w-10 md:hidden"
+			>
+				X
+			</Link>
+
 			<h1 className="text-center text-xl font-bold tracking-wide">
 				TANTE SARA
 			</h1>
