@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { postData } from "../services/services";
 
@@ -25,7 +25,7 @@ export const SignUpPage = () => {
 		}
 
 		try {
-			const res = await postData("user", { name, email, password });
+			const res = await postData("auth/register", { name, email, password });
 
 			if (res[0]) {
 				reset();
@@ -39,7 +39,14 @@ export const SignUpPage = () => {
 	};
 
 	return (
-		<main className="flex flex-col gap-10 p-10">
+		<main className="flex flex-col gap-10 p-10 relative">
+			<Link
+				to={"/"}
+				className="rounded-full shadow-sm shadow-black h-10 w-10 absolute flex justify-center items-center"
+			>
+				⬅
+			</Link>
+
 			<h1 className="text-center text-xl font-bold tracking-wide">
 				REGISTRARSE
 			</h1>

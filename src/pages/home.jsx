@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export const HomePage = () => {
+	const [isNotOpen, setIsNotOpen] = useState(true);
+
 	return (
 		<>
-			<header className="flex justify-between items-center shadow-sm shadow-black p-10">
+			<header className="flex justify-between items-center shadow-sm shadow-black p-10 relative">
 				<h1 className="text-center text-xl font-bold tracking-widest">
 					MI VITRINA
 				</h1>
@@ -24,11 +27,42 @@ export const HomePage = () => {
 				</div>
 
 				<button
+					onClick={() => setIsNotOpen(false)}
 					type="button"
 					className="rounded-full shadow-sm shadow-black h-10 w-10 md:hidden"
 				>
-					X
+					{isNotOpen ? "O" : "X"}
 				</button>
+
+				{!isNotOpen && (
+					<nav className="absolute right-10 top-10">
+						<ul className="flex flex-col gap-3">
+							<button
+								onClick={() => setIsNotOpen(true)}
+								type="button"
+								className="h-10 w-10 ml-auto"
+							>
+								X
+							</button>
+							<li>
+								<Link
+									to="/signUp"
+									className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
+								>
+									REGISTRARSE
+								</Link>
+							</li>
+							<li>
+								<Link
+									to="/signIn"
+									className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
+								>
+									INICIAR SESIÓN
+								</Link>
+							</li>
+						</ul>
+					</nav>
+				)}
 			</header>
 			<main className="flex flex-col gap-10 p-10">
 				<p className="text-center text-xl font-bold tracking-wide">

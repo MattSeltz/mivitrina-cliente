@@ -23,13 +23,13 @@ export const SignInPage = () => {
 		}
 
 		try {
-			const res = await postData("user", { email, password });
+			const res = await postData("auth/login", { email, password });
 
 			if (res[0]) {
 				reset();
 				navigate("/add");
 			} else {
-				alert("Ocurrió un error al crear el usuario");
+				alert("Ocurrió un error al iniciar sesión");
 			}
 		} catch (error) {
 			throw new Error(error);
@@ -37,7 +37,14 @@ export const SignInPage = () => {
 	};
 
 	return (
-		<main className="flex flex-col gap-10 p-10">
+		<main className="flex flex-col gap-10 p-10 relative">
+			<Link
+				to={"/"}
+				className="rounded-full shadow-sm shadow-black h-10 w-10 absolute flex justify-center items-center"
+			>
+				⬅
+			</Link>
+
 			<h1 className="text-center text-xl font-bold tracking-wide">
 				INICIAR SESIÓN
 			</h1>

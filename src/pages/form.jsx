@@ -8,8 +8,9 @@ export const FormPage = () => {
 
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
+	const [ubication, setUbication] = useState("");
 	const [images, setImages] = useState([]);
-	const [schedule, setSchedule] = useState({
+	const [dates, setDates] = useState({
 		lunes: {
 			checked: false,
 			open: "",
@@ -58,7 +59,7 @@ export const FormPage = () => {
 		setTitle("");
 		setDescription("");
 		setImages([]);
-		setSchedule({
+		setDates({
 			lunes: {
 				checked: false,
 				open: "",
@@ -97,7 +98,7 @@ export const FormPage = () => {
 		});
 		setContact({
 			email: "",
-			telefono: "",
+			tel: "",
 			whatsapp: "",
 			instagram: "",
 			facebook: "",
@@ -106,7 +107,7 @@ export const FormPage = () => {
 
 	const removeImage = (index) => {
 		const imagesCP = [...images];
-		const newImages = imagesCP.filter((image, i) => i !== index);
+		const newImages = imagesCP.filter((_, i) => i !== index);
 		setImages(newImages);
 	};
 
@@ -119,8 +120,9 @@ export const FormPage = () => {
 			const res = await postData("site", {
 				title,
 				description,
-				images,
-				schedule,
+				galery: images,
+				ubication,
+				dates,
 				contact,
 			});
 
@@ -128,7 +130,7 @@ export const FormPage = () => {
 				reset();
 				navigate("/vitrina");
 			} else {
-				alert("Ocurrió un error al crear el usuario");
+				alert("Ocurrió un error al crear la vitrina");
 			}
 		} catch (error) {
 			throw new Error(error);
@@ -164,6 +166,17 @@ export const FormPage = () => {
 						onChange={(e) => setDescription(e.target.value)}
 					></textarea>
 				</div>
+				<div className="flex flex-col gap-1 md:gap-3">
+					<label htmlFor="ubication">UBICACIÓN</label>
+					<input
+						className="rounded-md p-1 text-black focus:outline-none md:p-3"
+						type="text"
+						name="ubication"
+						id="ubication"
+						value={ubication}
+						onChange={(e) => setUbication(e.target.value)}
+					/>
+				</div>
 				{images.length < 3 ? (
 					<div className="flex flex-col gap-1 md:gap-3">
 						<label htmlFor="imagenes">IMAGENES</label>
@@ -173,7 +186,9 @@ export const FormPage = () => {
 							name="imagenes"
 							id="imagenes"
 							accept=".jpg, .jpeg, .png"
-							onChange={(e) => setImages((prev) => [...prev, e.target.files])}
+							onChange={(e) =>
+								setImages((prev) => [...prev, e.target.files[0]])
+							}
 						/>
 					</div>
 				) : (
@@ -182,7 +197,7 @@ export const FormPage = () => {
 				<ul className="flex flex-col gap-10">
 					{images.map((image, index) => (
 						<li key={index} className="relative">
-							<img src={URL.createObjectURL(image[0])} alt="imagen" />
+							<img src={URL.createObjectURL(image)} alt="imagen" />
 							<button
 								type="button"
 								className="h-5 w-5 rounded-full bg-red-500 absolute top-1 right-1 text-xs"
@@ -198,7 +213,8 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="lunes"
-							style={{ opacity: schedule.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.lunes.checked ? 1 : 0.5 }}
+							className="cursor-pointer"
 						>
 							LUNES
 						</label>
@@ -207,22 +223,22 @@ export const FormPage = () => {
 							id="lunes"
 							className="hidden"
 							onChange={(e) =>
-								setSchedule((prev) => ({
+								setDates((prev) => ({
 									...prev,
-									lunes: { checked: e.target.checked },
+									lunes: { ...prev.lunes, checked: e.target.checked },
 								}))
 							}
 						/>
 					</div>
-					{schedule.lunes.checked && (
+					{dates.lunes.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										lunes: { open: e.target.value },
+										lunes: { ...prev.lunes, open: e.target.value },
 									}))
 								}
 							/>
@@ -231,9 +247,9 @@ export const FormPage = () => {
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										lunes: { close: e.target.value },
+										lunes: { ...prev.lunes, close: e.target.value },
 									}))
 								}
 							/>
@@ -244,7 +260,8 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="martes"
-							style={{ opacity: schedule.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.martes.checked ? 1 : 0.5 }}
+							className="cursor-pointer"
 						>
 							MARTES
 						</label>
@@ -253,22 +270,22 @@ export const FormPage = () => {
 							id="martes"
 							className="hidden"
 							onChange={(e) =>
-								setSchedule((prev) => ({
+								setDates((prev) => ({
 									...prev,
-									martes: { checked: e.target.checked },
+									martes: { ...prev.martes, checked: e.target.checked },
 								}))
 							}
 						/>
 					</div>
-					{schedule.martes.checked && (
+					{dates.martes.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										martes: { open: e.target.value },
+										martes: { ...prev.martes, open: e.target.value },
 									}))
 								}
 							/>
@@ -277,9 +294,9 @@ export const FormPage = () => {
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										martes: { close: e.target.value },
+										martes: { ...prev.martes, close: e.target.value },
 									}))
 								}
 							/>
@@ -290,7 +307,8 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="miercoles"
-							style={{ opacity: schedule.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.miercoles.checked ? 1 : 0.5 }}
+							className="cursor-pointer"
 						>
 							MIERCOLES
 						</label>
@@ -299,22 +317,22 @@ export const FormPage = () => {
 							id="miercoles"
 							className="hidden"
 							onChange={(e) =>
-								setSchedule((prev) => ({
+								setDates((prev) => ({
 									...prev,
-									miercoles: { checked: e.target.checked },
+									miercoles: { ...prev.miercoles, checked: e.target.checked },
 								}))
 							}
 						/>
 					</div>
-					{schedule.miercoles.checked && (
+					{dates.miercoles.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										miercoles: { open: e.target.value },
+										miercoles: { ...prev.miercoles, open: e.target.value },
 									}))
 								}
 							/>
@@ -323,9 +341,9 @@ export const FormPage = () => {
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										miercoles: { close: e.target.value },
+										miercoles: { ...prev.miercoles, close: e.target.value },
 									}))
 								}
 							/>
@@ -336,7 +354,8 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="jueves"
-							style={{ opacity: schedule.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.jueves.checked ? 1 : 0.5 }}
+							className="cursor-pointer"
 						>
 							JUEVES
 						</label>
@@ -345,22 +364,22 @@ export const FormPage = () => {
 							id="jueves"
 							className="hidden"
 							onChange={(e) =>
-								setSchedule((prev) => ({
+								setDates((prev) => ({
 									...prev,
-									jueves: { checked: e.target.checked },
+									jueves: { ...prev.jueves, checked: e.target.checked },
 								}))
 							}
 						/>
 					</div>
-					{schedule.jueves.checked && (
+					{dates.jueves.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										jueves: { open: e.target.value },
+										jueves: { ...prev.jueves, open: e.target.value },
 									}))
 								}
 							/>
@@ -369,9 +388,9 @@ export const FormPage = () => {
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										jueves: { close: e.target.value },
+										jueves: { ...prev.jueves, close: e.target.value },
 									}))
 								}
 							/>
@@ -382,7 +401,8 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="viernes"
-							style={{ opacity: schedule.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.viernes.checked ? 1 : 0.5 }}
+							className="cursor-pointer"
 						>
 							VIERNES
 						</label>
@@ -391,22 +411,22 @@ export const FormPage = () => {
 							id="viernes"
 							className="hidden"
 							onChange={(e) =>
-								setSchedule((prev) => ({
+								setDates((prev) => ({
 									...prev,
-									viernes: { checked: e.target.checked },
+									viernes: { ...prev.viernes, checked: e.target.checked },
 								}))
 							}
 						/>
 					</div>
-					{schedule.viernes.checked && (
+					{dates.viernes.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										viernes: { open: e.target.value },
+										viernes: { ...prev.viernes, open: e.target.value },
 									}))
 								}
 							/>
@@ -415,9 +435,9 @@ export const FormPage = () => {
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										viernes: { close: e.target.value },
+										viernes: { ...prev.viernes, close: e.target.value },
 									}))
 								}
 							/>
@@ -428,7 +448,8 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="sabado"
-							style={{ opacity: schedule.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.sabado.checked ? 1 : 0.5 }}
+							className="cursor-pointer"
 						>
 							SABADO
 						</label>
@@ -437,22 +458,22 @@ export const FormPage = () => {
 							id="sabado"
 							className="hidden"
 							onChange={(e) =>
-								setSchedule((prev) => ({
+								setDates((prev) => ({
 									...prev,
-									sabado: { checked: e.target.checked },
+									sabado: { ...prev.sabado, checked: e.target.checked },
 								}))
 							}
 						/>
 					</div>
-					{schedule.sabado.checked && (
+					{dates.sabado.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										sabado: { open: e.target.value },
+										sabado: { ...prev.sabado, open: e.target.value },
 									}))
 								}
 							/>
@@ -461,9 +482,9 @@ export const FormPage = () => {
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										sabado: { close: e.target.value },
+										sabado: { ...prev.sabado, close: e.target.value },
 									}))
 								}
 							/>
@@ -474,7 +495,8 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="domingo"
-							style={{ opacity: schedule.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.domingo.checked ? 1 : 0.5 }}
+							className="cursor-pointer"
 						>
 							DOMINGO
 						</label>
@@ -483,22 +505,22 @@ export const FormPage = () => {
 							id="domingo"
 							className="hidden"
 							onChange={(e) =>
-								setSchedule((prev) => ({
+								setDates((prev) => ({
 									...prev,
-									domingo: { checked: e.target.checked },
+									domingo: { ...prev.domingo, checked: e.target.checked },
 								}))
 							}
 						/>
 					</div>
-					{schedule.domingo.checked && (
+					{dates.domingo.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										domingo: { open: e.target.value },
+										domingo: { ...prev.domingo, open: e.target.value },
 									}))
 								}
 							/>
@@ -507,9 +529,9 @@ export const FormPage = () => {
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
 								onChange={(e) =>
-									setSchedule((prev) => ({
+									setDates((prev) => ({
 										...prev,
-										domingo: { close: e.target.value },
+										domingo: { ...prev.domingo, close: e.target.value },
 									}))
 								}
 							/>
@@ -537,9 +559,9 @@ export const FormPage = () => {
 						type="tel"
 						name="telefono"
 						id="telefono"
-						value={contact.telefono}
+						value={contact.tel}
 						onChange={(e) =>
-							setContact((prev) => ({ ...prev, telefono: e.target.value }))
+							setContact((prev) => ({ ...prev, tel: e.target.value }))
 						}
 					/>
 				</div>

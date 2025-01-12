@@ -4,6 +4,7 @@ export const getData = async (uri) => {
 	try {
 		const res = await fetch(`${ENVIRONMENT}/${uri}`, {
 			method: "GET",
+			credentials: "include",
 		});
 
 		const data = await res.json();
@@ -18,6 +19,7 @@ export const getOneData = async (uri, id) => {
 	try {
 		const res = await fetch(`${ENVIRONMENT}/${uri}/${id}`, {
 			method: "GET",
+			credentials: "include",
 		});
 
 		const data = await res.json();
@@ -36,6 +38,7 @@ export const postData = async (uri, body) => {
 			headers: {
 				"Content-Type": "application/json",
 			},
+			credentials: "include",
 		});
 
 		const data = await res.json();
@@ -54,6 +57,7 @@ export const putData = async (uri, id, body) => {
 			headers: {
 				"Content-Type": "application/json",
 			},
+			credentials: "include",
 		});
 
 		const data = await res.json();
@@ -68,6 +72,7 @@ export const deleteData = async (uri, id) => {
 	try {
 		const res = await fetch(`${ENVIRONMENT}/${uri}/${id}`, {
 			method: "DELETE",
+			credentials: "include",
 		});
 
 		const data = await res.json();
