@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { postData } from "../services/services";
+import { postData, putData } from "../services/services";
 
 export const FormPage = () => {
 	const navigate = useNavigate();
@@ -58,6 +58,7 @@ export const FormPage = () => {
 	const reset = () => {
 		setTitle("");
 		setDescription("");
+		setUbication("");
 		setImages([]);
 		setDates({
 			lunes: {
@@ -114,7 +115,7 @@ export const FormPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (!title || !description || !images.length) return;
+		if (!title || !description || !images.length || !ubication) return;
 
 		try {
 			const res = await postData("site", {
@@ -127,14 +128,25 @@ export const FormPage = () => {
 			});
 
 			if (res[0]) {
+				await putData("user/populate", sessionStorage.getItem("id"), {
+					site: res[1]._id,
+				});
+				await putData("site/populate", res[1]._id, {
+					user: sessionStorage.getItem("id"),
+				});
 				reset();
-				navigate("/vitrina");
+				navigate(`/vitrina/${res[1]._id}`);
 			} else {
 				alert("Ocurrió un error al crear la vitrina");
 			}
 		} catch (error) {
 			throw new Error(error);
 		}
+	};
+
+	const handleCancel = () => {
+		reset();
+		navigate("/profile");
 	};
 
 	return (
@@ -606,7 +618,8 @@ export const FormPage = () => {
 				</div>
 				<div className="flex justify-between">
 					<button
-						type="submit"
+						onClick={handleCancel}
+						type="button"
 						className="shadow-sm shadow-black rounded-md bg-red-500 p-3 mt-3 transition-colors hover:bg-red-600"
 					>
 						CANCELAR

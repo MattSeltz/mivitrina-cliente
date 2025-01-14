@@ -27,7 +27,8 @@ export const SignInPage = () => {
 
 			if (res[0]) {
 				reset();
-				navigate("/add");
+				sessionStorage.setItem("id", res[1].id);
+				navigate("/profile");
 			} else {
 				alert("Ocurrió un error al iniciar sesión");
 			}

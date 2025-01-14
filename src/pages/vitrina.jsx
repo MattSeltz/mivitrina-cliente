@@ -1,9 +1,21 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { getOneData } from "../services/services";
+
 export const VitrinaPage = () => {
+	const [isNotOpen, setIsNotOpen] = useState(true);
+	const [site, setSite] = useState(null);
+
+	useEffect(() => {
+		getOneData("site", location.pathname.split("/")[2])
+			.then((res) => setSite(res[1]))
+			.catch((e) => console.error(e));
+	}, []);
+
 	return (
 		<main className="flex flex-col gap-10 p-10">
-			<Link
+			{/* <Link
 				to={"/site"}
 				className="hidden absolute top-5 right-5 p-3 rounded-md bg-blue-500 transition-colors hover:bg-blue-600 md:block"
 			>
@@ -14,10 +26,63 @@ export const VitrinaPage = () => {
 				className="shadow-sm absolute top-5 right-5 flex justify-center items-center shadow-black font-bold rounded-full h-10 w-10 md:hidden"
 			>
 				X
-			</Link>
+			</Link> */}
+
+			<div className="gap-5 hidden absolute right-10 md:flex">
+				<Link
+					to={"/edit"}
+					className="hidden justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600 md:flex"
+				>
+					EDITAR
+				</Link>
+				<Link
+					to="/profile"
+					className="hidden justify-center items-center shadow-sm shadow-black rounded-md bg-red-500 p-3 tracking-widest transition-colors hover:bg-red-600 md:flex"
+				>
+					VOLVER
+				</Link>
+			</div>
+
+			<button
+				onClick={() => setIsNotOpen(false)}
+				type="button"
+				className="rounded-full absolute right-10 shadow-sm shadow-black  h-10 w-10 md:hidden"
+			>
+				{isNotOpen ? "O" : "X"}
+			</button>
+
+			{!isNotOpen && (
+				<nav className="absolute right-10 top-10">
+					<ul className="flex flex-col gap-3">
+						<button
+							onClick={() => setIsNotOpen(true)}
+							type="button"
+							className="h-10 w-10 ml-auto"
+						>
+							X
+						</button>
+						<li>
+							<Link
+								to="/edit"
+								className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
+							>
+								EDITAR
+							</Link>
+						</li>
+						<li>
+							<Link
+								to="/profile"
+								className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-red-500 p-3 tracking-widest transition-colors hover:bg-red-600"
+							>
+								VOLVER
+							</Link>
+						</li>
+					</ul>
+				</nav>
+			)}
 
 			<h1 className="text-center text-xl font-bold tracking-wide">
-				TANTE SARA
+				{site?.title}
 			</h1>
 
 			<img
@@ -50,15 +115,10 @@ export const VitrinaPage = () => {
 				</li>
 			</ul>
 
-			<p className="max-w-5xl mx-auto">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur modi
-				eum corrupti harum, a officiis. Harum maxime possimus minima cupiditate.
-				Animi obcaecati corporis similique deleniti eveniet cumque molestias
-				error dolorem.
-			</p>
+			<p className="max-w-5xl mx-auto">{site?.description}</p>
 
 			<p className="md:text-center">
-				ENCONTRANOS EN <b>San Martin 175</b>
+				ENCONTRANOS EN <b>{site?.ubication}</b>
 			</p>
 
 			<iframe
@@ -75,74 +135,126 @@ export const VitrinaPage = () => {
 			<p className="text-center">HORARIOS</p>
 
 			<ul className="flex flex-col gap-5 max-w-md mx-auto w-full">
-				<li className="flex justify-between items-center">
-					<p>
-						<b>Lunes</b>
-					</p>
-					<div className="flex flex-col">
-						<span>10:00 - 13:00</span> <span>16:00 - 21:00</span>
-					</div>
-				</li>
-				<li className="flex justify-between items-center">
-					<p>
-						<b>Martes</b>
-					</p>
-					<div className="flex flex-col">
-						<span>10:00 - 13:00</span> <span>16:00 - 21:00</span>
-					</div>
-				</li>
-				<li className="flex justify-between items-center">
-					<p>
-						<b>Miercoles</b>
-					</p>
-					<div className="flex flex-col">
-						<span>10:00 - 13:00</span> <span>16:00 - 21:00</span>
-					</div>
-				</li>
-				<li className="flex justify-between items-center">
-					<p>
-						<b>Jueves</b>
-					</p>
-					<div className="flex flex-col">
-						<span>10:00 - 13:00</span> <span>16:00 - 21:00</span>
-					</div>
-				</li>
-				<li className="flex justify-between items-center">
-					<p>
-						<b>Viernes</b>
-					</p>
-					<div className="flex flex-col">
-						<span>10:00 - 13:00</span> <span>16:00 - 21:00</span>
-					</div>
-				</li>
+				{site?.dates.lunes.checked && (
+					<li className="flex justify-between items-center">
+						<p>
+							<b>Lunes</b>
+						</p>
+						<div className="flex flex-col">
+							<span>
+								{site?.date.lunes.open} - {site?.date.lunes.close}
+							</span>
+						</div>
+					</li>
+				)}
+
+				{site?.dates.martes.checked && (
+					<li className="flex justify-between items-center">
+						<p>
+							<b>Martes</b>
+						</p>
+						<div className="flex flex-col">
+							<span>
+								{site?.dates.martes.open} - {site?.dates.martes.close}
+							</span>
+						</div>
+					</li>
+				)}
+
+				{site?.dates.miercoles.checked && (
+					<li className="flex justify-between items-center">
+						<p>
+							<b>Miercoles</b>
+						</p>
+						<div className="flex flex-col">
+							<span>
+								{site?.dates.miercoles.open} - {site?.dates.miercoles.close}
+							</span>
+						</div>
+					</li>
+				)}
+
+				{site?.dates.jueves.checked && (
+					<li className="flex justify-between items-center">
+						<p>
+							<b>Jueves</b>
+						</p>
+						<div className="flex flex-col">
+							<span>
+								{site?.dates.jueves.open} - {site?.dates.jueves.close}
+							</span>
+						</div>
+					</li>
+				)}
+
+				{site?.dates.viernes.checked && (
+					<li className="flex justify-between items-center">
+						<p>
+							<b>Viernes</b>
+						</p>
+						<div className="flex flex-col">
+							<span>
+								{site?.dates.viernes.open} - {site?.dates.viernes.close}
+							</span>
+						</div>
+					</li>
+				)}
+
+				{site?.dates.sabado.checked && (
+					<li className="flex justify-between items-center">
+						<p>
+							<b>Sabado</b>
+						</p>
+						<div className="flex flex-col">
+							<span>
+								{site?.dates.sabado.open} - {site?.dates.sabado.close}
+							</span>
+						</div>
+					</li>
+				)}
+
+				{site?.dates.domingo.checked && (
+					<li className="flex justify-between items-center">
+						<p>
+							<b>Domingo</b>
+						</p>
+						<div className="flex flex-col">
+							<span>
+								{site?.dates.domingo.open} - {site?.dates.domingo.close}
+							</span>
+						</div>
+					</li>
+				)}
 			</ul>
 
 			<p className="text-center">CONTACTO</p>
 
 			<ul className="flex flex-col gap-3 md:mx-auto md:flex-row md:gap-10">
 				<li>
-					<a href="mailto:pasteleria@tantesara.com">pasteleria@tantesara.com</a>
+					<a href={`mailto:${site?.contact.email}`}>{site?.contact.email}</a>
 				</li>
 				<li>
-					<a href="tel:+542901423912">+542901423912</a>
+					<a href={`tel:+54${site?.contact.tel}`}>+54{site?.contact.tel}</a>
 				</li>
 				<li>
-					<a href="https://wa.me/+542901581778">+542901581778</a>
-				</li>
-				<li>
-					<a
-						href="https://www.instagram.com/tantesaracosasricas/"
-						target="_blank"
-					>
-						IG/tantesaracosasricas/
+					<a href={`https://wa.me/+54${site?.contact.whatsapp}`}>
+						+54{site?.contact.whatsapp}
 					</a>
 				</li>
 				<li>
 					<a
-						href="https://www.facebook.com/TanteSaraCosasRicas/"
+						href={`https://instagram.com/${site?.contact.instagram}`}
 						target="_blank"
 					>
-						FB/TanteSaraCosasRicas/
+						{site?.contact.instagram}
+					</a>
+				</li>
+				<li>
+					<a
+						href={`https://facebook.com/${site?.contact.facebook}`}
+						target="_blank"
+					>
+						{site?.contact.facebook}
 					</a>
 				</li>
 			</ul>
