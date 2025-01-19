@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { postData, putData } from "../services/services";
 
+import { Loading } from "../components/Loading";
+
 export const FormPage = () => {
 	const navigate = useNavigate();
 
+	const [isLoading, setIsLoading] = useState(false);
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [ubication, setUbication] = useState("");
@@ -115,7 +118,22 @@ export const FormPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (!title || !description || !images.length || !ubication) return;
+		if (
+			!title ||
+			!description ||
+			images.length < 3 ||
+			!ubication ||
+			!contact.email ||
+			!contact.facebook ||
+			!contact.instagram ||
+			!contact.telefono ||
+			!contact.whatsapp
+		) {
+			alert("Faltan completar datos");
+			return;
+		}
+
+		setIsLoading(true);
 
 		try {
 			const res = await postData("site", {
@@ -129,13 +147,23 @@ export const FormPage = () => {
 			if (res[0]) {
 				await Promise.all(
 					images.map((file) => {
-						const reader = new FileReader();
-						reader.readAsDataURL(file);
-						reader.onloadend = async () => {
-							await postData(`site/${res[1]._id}/upload`, {
-								image: reader.result,
-							});
-						};
+						return new Promise((resolve, reject) => {
+							const reader = new FileReader();
+							reader.readAsDataURL(file);
+							reader.onloadend = async () => {
+								try {
+									await postData(`site/${res[1]._id}/upload`, {
+										image: reader.result,
+									});
+									resolve();
+								} catch (error) {
+									reject(error);
+								}
+							};
+							reader.onerror = () => {
+								reject(new Error("Error al leer el archivo"));
+							};
+						});
 					})
 				);
 
@@ -153,6 +181,7 @@ export const FormPage = () => {
 		} catch (error) {
 			throw new Error(error);
 		}
+		setIsLoading(false);
 	};
 
 	const handleCancel = () => {
@@ -160,7 +189,9 @@ export const FormPage = () => {
 		navigate("/profile");
 	};
 
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<main className="flex flex-col gap-10 p-10">
 			<form
 				onSubmit={handleSubmit}
@@ -582,9 +613,9 @@ export const FormPage = () => {
 						type="tel"
 						name="telefono"
 						id="telefono"
-						value={contact.tel}
+						value={contact.telefono}
 						onChange={(e) =>
-							setContact((prev) => ({ ...prev, tel: e.target.value }))
+							setContact((prev) => ({ ...prev, telefono: e.target.value }))
 						}
 					/>
 				</div>

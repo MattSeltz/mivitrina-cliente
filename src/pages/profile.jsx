@@ -3,17 +3,25 @@ import { Link } from "react-router-dom";
 
 import { getOneData } from "../services/services";
 
+import { Loading } from "../components/Loading";
+
 export const ProfilePage = () => {
+	const [isLoading, setIsLoading] = useState(true);
 	const [isNotOpen, setIsNotOpen] = useState(true);
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
 		getOneData("user", sessionStorage.getItem("id"))
-			.then((res) => setUser(res[1]))
+			.then((res) => {
+				res && setUser(res[1]);
+				setIsLoading(false);
+			})
 			.catch((e) => console.error(e));
 	}, []);
 
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<>
 			<header className="flex justify-between items-center shadow-sm shadow-black p-10">
 				<h1 className="text-center text-xl font-bold tracking-widest">

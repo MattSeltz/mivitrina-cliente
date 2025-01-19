@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { postData } from "../services/services";
 
+import { Loading } from "../components/Loading";
+
 export const SignInPage = () => {
 	const navigate = useNavigate();
 
+	const [isLoading, setIsLoading] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -22,6 +25,8 @@ export const SignInPage = () => {
 			return;
 		}
 
+		setIsLoading(true);
+
 		try {
 			const res = await postData("auth/login", { email, password });
 
@@ -35,9 +40,13 @@ export const SignInPage = () => {
 		} catch (error) {
 			throw new Error(error);
 		}
+
+		setIsLoading(false);
 	};
 
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<main className="flex flex-col gap-10 p-10 relative">
 			<Link
 				to={"/"}

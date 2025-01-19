@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { getOneData, putData } from "../services/services";
 
+import { Loading } from "../components/Loading";
+
 export const FormEditPage = () => {
 	const navigate = useNavigate();
 
+	const [isLoading, setIsLoading] = useState(true);
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [ubication, setUbication] = useState("");
@@ -64,6 +67,7 @@ export const FormEditPage = () => {
 				setDates(res[1].dates);
 				setImages(res[1].galery);
 				setContact(res[1].contact);
+				setIsLoading(false);
 			})
 			.catch((e) => console.error(e));
 	}, []);
@@ -128,7 +132,22 @@ export const FormEditPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (!title || !description || !images.length || !ubication) return;
+		if (
+			!title ||
+			!description ||
+			images.length < 3 ||
+			!ubication ||
+			!contact.email ||
+			!contact.facebook ||
+			!contact.instagram ||
+			!contact.telefono ||
+			!contact.whatsapp
+		) {
+			alert("Faltan completar datos");
+			return;
+		}
+
+		setIsLoading(true);
 
 		try {
 			const res = await putData("site", location.pathname.split("/")[2], {
@@ -160,6 +179,7 @@ export const FormEditPage = () => {
 		} catch (error) {
 			throw new Error(error);
 		}
+		setIsLoading(false);
 	};
 
 	const handleCancel = () => {
@@ -167,7 +187,9 @@ export const FormEditPage = () => {
 		navigate("/profile");
 	};
 
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<main className="flex flex-col gap-10 p-10">
 			<form
 				onSubmit={handleSubmit}

@@ -3,17 +3,25 @@ import { Link } from "react-router-dom";
 
 import { getOneData } from "../services/services";
 
+import { Loading } from "../components/Loading";
+
 export const VitrinaPage = () => {
+	const [isLoading, setIsLoading] = useState(true);
 	const [isNotOpen, setIsNotOpen] = useState(true);
 	const [site, setSite] = useState(null);
 
 	useEffect(() => {
 		getOneData("site", location.pathname.split("/")[2])
-			.then((res) => setSite(res[1]))
+			.then((res) => {
+				res && setSite(res[1]);
+				setIsLoading(false);
+			})
 			.catch((e) => console.error(e));
 	}, []);
 
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<main className="flex flex-col gap-10 p-10">
 			<div className="gap-5 hidden absolute right-10 md:flex">
 				<Link

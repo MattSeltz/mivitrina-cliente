@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import Vitrina from "../assets/mivitrina.svg";
+
 export const HomePage = () => {
 	const [isNotOpen, setIsNotOpen] = useState(true);
 
@@ -70,29 +72,26 @@ export const HomePage = () => {
 				</p>
 
 				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic mollitia
-					delectus asperiores nulla, alias pariatur optio eum, dicta libero
-					eveniet rerum est deleniti necessitatibus, eius accusantium laudantium
-					quasi? A, eius?
+					Lleva tu negocio al siguiente nivel con MiVitrina: la forma más simple
+					y rápida de mostrar lo que ofreces al mundo. Diseñada para
+					emprendedores como tú, te permite crear una página profesional en
+					minutos, sin necesidad de experiencia técnica.
 				</p>
 
-				<img
-					src="https://cdn-icons-png.flaticon.com/128/17878/17878108.png"
-					alt="mivitrina"
-				/>
+				<img src={Vitrina} alt="mivitrina" />
 
 				<p>
-					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta minima
-					animi laborum cumque ipsa reprehenderit, maxime asperiores repudiandae
-					ducimus error enim? Officia quaerat tenetur quas dolor ab quae,
-					voluptatem vero.
+					MiVitrina es perfecta para mostrar tus productos, servicios y toda la
+					información que tus clientes necesitan. Con plantillas
+					personalizables, diseño optimizado para móviles y herramientas de SEO
+					integradas, tu negocio estará listo para destacar en línea. ¡Empieza
+					ahora y haz que te encuentren fácilmente!
 				</p>
 
 				<p>CONTACTO</p>
 
 				<ul>
-					<li>contacto@mivitrina.com</li>
-					<li>+542901486436</li>
+					<li>mivitrina.corp@gmail.com</li>
 				</ul>
 			</main>
 		</>

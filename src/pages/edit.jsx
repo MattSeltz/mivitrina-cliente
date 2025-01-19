@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { deleteData, getOneData, putData } from "../services/services";
 
+import { Loading } from "../components/Loading";
+
 export const EditPage = () => {
 	const navigate = useNavigate();
 
+	const [isLoading, setIsLoading] = useState(true);
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -17,6 +20,7 @@ export const EditPage = () => {
 				setName(res[1].name);
 				setEmail(res[1].email);
 				setSites(res[1].sites);
+				setIsLoading(false);
 			})
 			.catch((e) => console.error(e));
 	}, []);
@@ -34,6 +38,8 @@ export const EditPage = () => {
 			alert("Por favor, completa los campos 'EMAIL' y 'NOMBRE Y APELLIDO'");
 			return;
 		}
+
+		setIsLoading(true);
 
 		try {
 			const res = password
@@ -56,9 +62,11 @@ export const EditPage = () => {
 		} catch (error) {
 			throw new Error(error);
 		}
+		setIsLoading(false);
 	};
 
 	const handleClickDeleteSite = async (id) => {
+		setIsLoading(true);
 		try {
 			await deleteData("site", id);
 			const cpSites = [...sites];
@@ -73,6 +81,7 @@ export const EditPage = () => {
 			} else {
 				alert("Ocurrió un error al eliminar el sitio");
 			}
+			setIsLoading(false);
 		} catch (error) {
 			throw new Error(error);
 		}
@@ -81,6 +90,7 @@ export const EditPage = () => {
 	const handleClickDelete = async () => {
 		try {
 			if (confirm("Estas seguro que deseas eliminar tu usuario")) {
+				setIsLoading(true);
 				const cpSites = [...sites];
 				await Promise.all(
 					cpSites.map(async (site) => {
@@ -96,13 +106,16 @@ export const EditPage = () => {
 				} else {
 					alert("Ocurrió un error al eliminar tu usuario");
 				}
+				setIsLoading(false);
 			}
 		} catch (error) {
 			throw new Error(error);
 		}
 	};
 
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<main className="flex flex-col gap-10 p-10 relative">
 			<Link
 				to={"/profile"}
