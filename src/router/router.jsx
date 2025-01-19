@@ -8,6 +8,7 @@ import { SignUpPage } from "../pages/signUp";
 import { SignInPage } from "../pages/signIn";
 import { RecoveryPage } from "../pages/recovery";
 import { EditPage } from "../pages/edit";
+import { FormEditPage } from "../pages/formEdit";
 
 export const Router = () => {
 	return (
@@ -20,6 +21,7 @@ export const Router = () => {
 			<Route path="/add" element={<FormPage />} />
 			<Route path="/recovery" element={<RecoveryPage />} />
 			<Route path="/edit" element={<EditPage />} />
+			<Route path="/vitrina/:id/edit" element={<FormEditPage />} />
 		</Routes>
 	);
 };

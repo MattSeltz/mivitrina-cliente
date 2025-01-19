@@ -15,22 +15,9 @@ export const VitrinaPage = () => {
 
 	return (
 		<main className="flex flex-col gap-10 p-10">
-			{/* <Link
-				to={"/site"}
-				className="hidden absolute top-5 right-5 p-3 rounded-md bg-blue-500 transition-colors hover:bg-blue-600 md:block"
-			>
-				EDITAR
-			</Link>
-			<Link
-				to={"/profile"}
-				className="shadow-sm absolute top-5 right-5 flex justify-center items-center shadow-black font-bold rounded-full h-10 w-10 md:hidden"
-			>
-				X
-			</Link> */}
-
 			<div className="gap-5 hidden absolute right-10 md:flex">
 				<Link
-					to={"/edit"}
+					to={`/vitrina/${site?._id}/edit`}
 					className="hidden justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600 md:flex"
 				>
 					EDITAR
@@ -63,7 +50,7 @@ export const VitrinaPage = () => {
 						</button>
 						<li>
 							<Link
-								to="/edit"
+								to={`/vitrina/${site?._id}/edit`}
 								className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
 							>
 								EDITAR
@@ -85,34 +72,18 @@ export const VitrinaPage = () => {
 				{site?.title}
 			</h1>
 
-			<img
-				src="https://acdn.mitiendanube.com/stores/001/203/846/products/box-de-cosas-ricas-tante-sara-7b4e7f3eecb33ea40117180367798188-320-0.webp"
-				alt="tante sara"
-				className="md:hidden"
-			/>
+			<img src={site?.galery[0].uri} alt={site?.title} className="md:hidden" />
 
 			<ul className="hidden gap-10 justify-center md:flex">
-				<li>
-					<img
-						src="https://acdn.mitiendanube.com/stores/001/203/846/products/box-6-lingotes-tante-sara-968629e1cc22de46ac17180370206591-320-0.webp"
-						alt="tante sara"
-						className="rounded-md shadow-sm shadow-black"
-					/>
-				</li>
-				<li>
-					<img
-						src="https://acdn.mitiendanube.com/stores/001/203/846/products/box-2-tante-sara1-1d45b1fed8a1ff625716952265640868-320-0.webp"
-						alt="tante sara"
-						className="rounded-md shadow-sm shadow-black"
-					/>
-				</li>
-				<li>
-					<img
-						src="https://acdn.mitiendanube.com/stores/001/203/846/products/libro-tante-sara-tienda-online-11-f20b7ccdb061377ac015901272851262-320-0.webp"
-						alt="tante sara"
-						className="rounded-md shadow-sm shadow-black"
-					/>
-				</li>
+				{site?.galery.map((item) => (
+					<li key={item.id}>
+						<img
+							src={item.uri}
+							alt={site?.title}
+							className="rounded-md shadow-sm shadow-black h-52 w-52 object-cover"
+						/>
+					</li>
+				))}
 			</ul>
 
 			<p className="max-w-5xl mx-auto">{site?.description}</p>
@@ -142,7 +113,7 @@ export const VitrinaPage = () => {
 						</p>
 						<div className="flex flex-col">
 							<span>
-								{site?.date.lunes.open} - {site?.date.lunes.close}
+								{site?.dates.lunes.open} - {site?.dates.lunes.close}
 							</span>
 						</div>
 					</li>

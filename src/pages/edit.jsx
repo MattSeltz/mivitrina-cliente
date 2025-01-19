@@ -60,6 +60,7 @@ export const EditPage = () => {
 
 	const handleClickDeleteSite = async (id) => {
 		try {
+			await deleteData("site", id);
 			const cpSites = [...sites];
 			const filteredSites = cpSites.filter((site) => site._id !== id);
 
@@ -165,7 +166,7 @@ export const EditPage = () => {
 						<p>{site.title}</p>{" "}
 						<button
 							onClick={() => handleClickDeleteSite(site._id)}
-							className="rounded-md shadow-sm shadow-black p-3 bg-red-500 transition-colors hover:bg-red-600"
+							className="rounded-md mt-3 shadow-sm shadow-black p-3 bg-red-500 transition-colors hover:bg-red-600"
 							type="button"
 						>
 							ELIMINAR

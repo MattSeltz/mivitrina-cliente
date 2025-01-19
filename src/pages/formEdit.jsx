@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { postData, putData } from "../services/services";
+import { getOneData, putData } from "../services/services";
 
-export const FormPage = () => {
+export const FormEditPage = () => {
 	const navigate = useNavigate();
 
 	const [title, setTitle] = useState("");
@@ -54,6 +54,19 @@ export const FormPage = () => {
 		instagram: "",
 		facebook: "",
 	});
+
+	useEffect(() => {
+		getOneData("site", location.pathname.split("/")[2])
+			.then((res) => {
+				setTitle(res[1].title);
+				setDescription(res[1].description);
+				setUbication(res[1].ubication);
+				setDates(res[1].dates);
+				setImages(res[1].galery);
+				setContact(res[1].contact);
+			})
+			.catch((e) => console.error(e));
+	}, []);
 
 	const reset = () => {
 		setTitle("");
@@ -118,7 +131,7 @@ export const FormPage = () => {
 		if (!title || !description || !images.length || !ubication) return;
 
 		try {
-			const res = await postData("site", {
+			const res = await putData("site", location.pathname.split("/")[2], {
 				title,
 				description,
 				ubication,
@@ -127,24 +140,18 @@ export const FormPage = () => {
 			});
 
 			if (res[0]) {
-				await Promise.all(
-					images.map((file) => {
-						const reader = new FileReader();
-						reader.readAsDataURL(file);
-						reader.onloadend = async () => {
-							await postData(`site/${res[1]._id}/upload`, {
-								image: reader.result,
-							});
-						};
-					})
-				);
+				// await Promise.all(
+				// 	images.map((file) => {
+				// 		const reader = new FileReader();
+				// 		reader.readAsDataURL(file);
+				// 		reader.onloadend = async () => {
+				// 			await postData(`site/${res[1]._id}/upload`, {
+				// 				image: reader.result,
+				// 			});
+				// 		};
+				// 	})
+				// );
 
-				await putData("user/populate", sessionStorage.getItem("id"), {
-					site: res[1]._id,
-				});
-				await putData("site/populate", res[1]._id, {
-					user: sessionStorage.getItem("id"),
-				});
 				reset();
 				navigate(`/vitrina/${res[1]._id}`);
 			} else {
@@ -200,7 +207,7 @@ export const FormPage = () => {
 						onChange={(e) => setUbication(e.target.value)}
 					/>
 				</div>
-				{images.length < 3 ? (
+				{images?.length < 3 ? (
 					<div className="flex flex-col gap-1 md:gap-3">
 						<label htmlFor="imagenes">IMAGENES</label>
 						<input
@@ -218,9 +225,12 @@ export const FormPage = () => {
 					<p>MAXIMO 3 IMAGENES</p>
 				)}
 				<ul className="flex flex-col gap-10">
-					{images.map((image, index) => (
+					{images?.map((image, index) => (
 						<li key={index} className="relative">
-							<img src={URL.createObjectURL(image)} alt="imagen" />
+							<img
+								src={image.uri ? image.uri : URL.createObjectURL(image)}
+								alt="imagen"
+							/>
 							<button
 								type="button"
 								className="h-5 w-5 rounded-full bg-red-500 absolute top-1 right-1 text-xs"
@@ -236,7 +246,7 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="lunes"
-							style={{ opacity: dates.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates?.lunes.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							LUNES
@@ -253,11 +263,12 @@ export const FormPage = () => {
 							}
 						/>
 					</div>
-					{dates.lunes.checked && (
+					{dates?.lunes.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.lunes.open}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -269,6 +280,7 @@ export const FormPage = () => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.lunes.close}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -283,7 +295,7 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="martes"
-							style={{ opacity: dates.martes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates?.martes.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							MARTES
@@ -300,11 +312,12 @@ export const FormPage = () => {
 							}
 						/>
 					</div>
-					{dates.martes.checked && (
+					{dates?.martes.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.martes.open}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -316,6 +329,7 @@ export const FormPage = () => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.martes.close}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -330,7 +344,7 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="miercoles"
-							style={{ opacity: dates.miercoles.checked ? 1 : 0.5 }}
+							style={{ opacity: dates?.miercoles.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							MIERCOLES
@@ -347,11 +361,12 @@ export const FormPage = () => {
 							}
 						/>
 					</div>
-					{dates.miercoles.checked && (
+					{dates?.miercoles.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.miercoles.open}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -363,6 +378,7 @@ export const FormPage = () => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.miercoles.close}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -377,7 +393,7 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="jueves"
-							style={{ opacity: dates.jueves.checked ? 1 : 0.5 }}
+							style={{ opacity: dates?.jueves.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							JUEVES
@@ -394,11 +410,12 @@ export const FormPage = () => {
 							}
 						/>
 					</div>
-					{dates.jueves.checked && (
+					{dates?.jueves.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.jueves.open}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -410,6 +427,7 @@ export const FormPage = () => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.jueves.close}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -424,7 +442,7 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="viernes"
-							style={{ opacity: dates.viernes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates?.viernes.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							VIERNES
@@ -441,11 +459,12 @@ export const FormPage = () => {
 							}
 						/>
 					</div>
-					{dates.viernes.checked && (
+					{dates?.viernes.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.viernes.open}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -457,6 +476,7 @@ export const FormPage = () => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.viernes.close}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -471,7 +491,7 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="sabado"
-							style={{ opacity: dates.sabado.checked ? 1 : 0.5 }}
+							style={{ opacity: dates?.sabado.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							SABADO
@@ -488,11 +508,12 @@ export const FormPage = () => {
 							}
 						/>
 					</div>
-					{dates.sabado.checked && (
+					{dates?.sabado.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.sabado.open}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -504,6 +525,7 @@ export const FormPage = () => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.sabado.close}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -518,7 +540,7 @@ export const FormPage = () => {
 					<div>
 						<label
 							htmlFor="domingo"
-							style={{ opacity: dates.domingo.checked ? 1 : 0.5 }}
+							style={{ opacity: dates?.domingo.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							DOMINGO
@@ -535,11 +557,12 @@ export const FormPage = () => {
 							}
 						/>
 					</div>
-					{dates.domingo.checked && (
+					{dates?.domingo.checked && (
 						<div>
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.domingo.open}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -551,6 +574,7 @@ export const FormPage = () => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates?.domingo.close}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -569,7 +593,7 @@ export const FormPage = () => {
 						type="email"
 						name="email"
 						id="email"
-						value={contact.email}
+						value={contact?.email}
 						onChange={(e) =>
 							setContact((prev) => ({ ...prev, email: e.target.value }))
 						}
@@ -582,7 +606,7 @@ export const FormPage = () => {
 						type="tel"
 						name="telefono"
 						id="telefono"
-						value={contact.tel}
+						value={contact?.tel}
 						onChange={(e) =>
 							setContact((prev) => ({ ...prev, tel: e.target.value }))
 						}
@@ -595,7 +619,7 @@ export const FormPage = () => {
 						type="tel"
 						name="whatsapp"
 						id="whatsapp"
-						value={contact.whatsapp}
+						value={contact?.whatsapp}
 						onChange={(e) =>
 							setContact((prev) => ({ ...prev, whatsapp: e.target.value }))
 						}
@@ -608,7 +632,7 @@ export const FormPage = () => {
 						type="text"
 						name="instagram"
 						id="instagram"
-						value={contact.instagram}
+						value={contact?.instagram}
 						onChange={(e) =>
 							setContact((prev) => ({ ...prev, instagram: e.target.value }))
 						}
@@ -621,7 +645,7 @@ export const FormPage = () => {
 						type="text"
 						name="facebook"
 						id="facebook"
-						value={contact.facebook}
+						value={contact?.facebook}
 						onChange={(e) =>
 							setContact((prev) => ({ ...prev, facebook: e.target.value }))
 						}
