@@ -4,11 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { postData } from "../services/services";
 
 import { Loading } from "../components/Loading";
+import { Alert } from "../components/Alert";
 
 export const SignUpPage = () => {
 	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
+	const [typeOfAlert, setTypeOfAlert] = useState("");
+	const [messageOfAlert, setMessageOfAlert] = useState("");
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -17,13 +21,17 @@ export const SignUpPage = () => {
 		setName("");
 		setEmail("");
 		setPassword("");
+		setTypeOfAlert("");
+		setMessageOfAlert("");
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		if (name.trim() === "" || email.trim() === "" || password.trim() === "") {
-			alert("Por favor, completa todos los campos");
+			setShowAlert(true);
+			setMessageOfAlert("Por favor, completa todos los campos");
+			setTypeOfAlert("warning");
 			return;
 		}
 
@@ -33,10 +41,15 @@ export const SignUpPage = () => {
 			const res = await postData("auth/register", { name, email, password });
 
 			if (res[0]) {
+				setShowAlert(true);
+				setMessageOfAlert("Registrando usuario...");
+				setTypeOfAlert("success");
 				reset();
 				navigate("/signIn");
 			} else {
-				alert("Ocurrió un error al crear el usuario");
+				setShowAlert(true);
+				setMessageOfAlert("Ocurrió un error al crear el usuario");
+				setTypeOfAlert("error");
 			}
 		} catch (error) {
 			throw new Error(error);
@@ -49,6 +62,13 @@ export const SignUpPage = () => {
 		<Loading />
 	) : (
 		<main className="flex flex-col gap-10 p-10 relative">
+			{showAlert && (
+				<Alert
+					type={typeOfAlert}
+					message={messageOfAlert}
+					onClose={() => setShowAlert(false)}
+				/>
+			)}
 			<Link
 				to={"/"}
 				className="rounded-full shadow-sm shadow-black h-10 w-10 absolute flex justify-center items-center"

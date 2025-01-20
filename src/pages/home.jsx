@@ -66,7 +66,7 @@ export const HomePage = () => {
 					</nav>
 				)}
 			</header>
-			<main className="flex flex-col gap-10 p-10">
+			<main className="flex flex-col gap-10 p-10 max-w-3xl mx-auto">
 				<p className="text-center text-xl font-bold tracking-wide">
 					MI VITRINA
 				</p>
@@ -90,9 +90,9 @@ export const HomePage = () => {
 
 				<p>CONTACTO</p>
 
-				<ul>
-					<li>mivitrina.corp@gmail.com</li>
-				</ul>
+				<a href="mailto:mivitrina.corp@gmail.com" target="_blank">
+					mivitrina.corp@gmail.com
+				</a>
 			</main>
 		</>
 	);

@@ -4,24 +4,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { postData } from "../services/services";
 
 import { Loading } from "../components/Loading";
+import { Alert } from "../components/Alert";
 
 export const SignInPage = () => {
 	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
+	const [typeOfAlert, setTypeOfAlert] = useState("");
+	const [messageOfAlert, setMessageOfAlert] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const reset = () => {
 		setEmail("");
 		setPassword("");
+		setTypeOfAlert("");
+		setMessageOfAlert("");
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		if (email.trim() === "" || password.trim() === "") {
-			alert("Por favor, completa todos los campos");
+			setShowAlert(true);
+			setMessageOfAlert("Por favor, completa todos los campos");
+			setTypeOfAlert("warning");
 			return;
 		}
 
@@ -31,11 +39,16 @@ export const SignInPage = () => {
 			const res = await postData("auth/login", { email, password });
 
 			if (res[0]) {
+				setShowAlert(true);
+				setMessageOfAlert("Iniciando sesión...");
+				setTypeOfAlert("success");
 				reset();
 				sessionStorage.setItem("id", res[1].id);
 				navigate("/profile");
 			} else {
-				alert("Ocurrió un error al iniciar sesión");
+				setShowAlert(true);
+				setMessageOfAlert("Ocurrió un error al iniciar sesión");
+				setTypeOfAlert("error");
 			}
 		} catch (error) {
 			throw new Error(error);
@@ -48,6 +61,13 @@ export const SignInPage = () => {
 		<Loading />
 	) : (
 		<main className="flex flex-col gap-10 p-10 relative">
+			{showAlert && (
+				<Alert
+					type={typeOfAlert}
+					message={messageOfAlert}
+					onClose={() => setShowAlert(false)}
+				/>
+			)}
 			<Link
 				to={"/"}
 				className="rounded-full shadow-sm shadow-black h-10 w-10 absolute flex justify-center items-center"

@@ -4,11 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { deleteData, getOneData, putData } from "../services/services";
 
 import { Loading } from "../components/Loading";
+import { Alert } from "../components/Alert";
 
 export const EditPage = () => {
 	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = useState(true);
+	const [showAlert, setShowAlert] = useState(false);
+	const [typeOfAlert, setTypeOfAlert] = useState("");
+	const [messageOfAlert, setMessageOfAlert] = useState("");
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -29,13 +33,19 @@ export const EditPage = () => {
 		setName("");
 		setEmail("");
 		setPassword("");
+		setTypeOfAlert("");
+		setMessageOfAlert("");
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		if (name.trim() === "" || email.trim() === "") {
-			alert("Por favor, completa los campos 'EMAIL' y 'NOMBRE Y APELLIDO'");
+			setShowAlert(true);
+			setMessageOfAlert(
+				"Por favor, completa los campos 'EMAIL' y 'NOMBRE Y APELLIDO'"
+			);
+			setTypeOfAlert("warning");
 			return;
 		}
 
@@ -54,10 +64,15 @@ export const EditPage = () => {
 				  });
 
 			if (res[0]) {
+				setShowAlert(true);
+				setMessageOfAlert("Registrando usuario...");
+				setTypeOfAlert("success");
 				reset();
 				navigate("/profile");
 			} else {
-				alert("Ocurrió un error al editar el usuario");
+				setShowAlert(true);
+				setMessageOfAlert("Ocurrió un error al editar el usuario");
+				setTypeOfAlert("error");
 			}
 		} catch (error) {
 			throw new Error(error);
@@ -77,9 +92,14 @@ export const EditPage = () => {
 			});
 
 			if (res[0]) {
+				setShowAlert(true);
+				setMessageOfAlert("Eliminando sitio...");
+				setTypeOfAlert("success");
 				setSites(filteredSites);
 			} else {
-				alert("Ocurrió un error al eliminar el sitio");
+				setShowAlert(true);
+				setMessageOfAlert("Ocurrió un error al eliminar el sitio");
+				setTypeOfAlert("error");
 			}
 			setIsLoading(false);
 		} catch (error) {
@@ -101,10 +121,15 @@ export const EditPage = () => {
 				const res = await deleteData("user", sessionStorage.getItem("id"));
 
 				if (res[0]) {
+					setShowAlert(true);
+					setMessageOfAlert("Eliminando usuario...");
+					setTypeOfAlert("success");
 					navigate("/");
 					sessionStorage.removeItem("id");
 				} else {
-					alert("Ocurrió un error al eliminar tu usuario");
+					setShowAlert(true);
+					setMessageOfAlert("Ocurrió un error al eliminar tu usuario");
+					setTypeOfAlert("error");
 				}
 				setIsLoading(false);
 			}
@@ -117,6 +142,13 @@ export const EditPage = () => {
 		<Loading />
 	) : (
 		<main className="flex flex-col gap-10 p-10 relative">
+			{showAlert && (
+				<Alert
+					type={typeOfAlert}
+					message={messageOfAlert}
+					onClose={() => setShowAlert(false)}
+				/>
+			)}
 			<Link
 				to={"/profile"}
 				className="rounded-full shadow-sm shadow-black h-10 w-10 absolute flex justify-center items-center"

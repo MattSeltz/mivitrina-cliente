@@ -4,11 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { getOneData, putData } from "../services/services";
 
 import { Loading } from "../components/Loading";
+import { Alert } from "../components/Alert";
 
 export const FormEditPage = () => {
 	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = useState(true);
+	const [showAlert, setShowAlert] = useState(false);
+	const [typeOfAlert, setTypeOfAlert] = useState("");
+	const [messageOfAlert, setMessageOfAlert] = useState("");
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [ubication, setUbication] = useState("");
@@ -121,6 +125,8 @@ export const FormEditPage = () => {
 			instagram: "",
 			facebook: "",
 		});
+		setTypeOfAlert("");
+		setMessageOfAlert("");
 	};
 
 	const removeImage = (index) => {
@@ -143,7 +149,9 @@ export const FormEditPage = () => {
 			!contact.telefono ||
 			!contact.whatsapp
 		) {
-			alert("Faltan completar datos");
+			setShowAlert(true);
+			setMessageOfAlert("Por favor, completa todos los campos");
+			setTypeOfAlert("warning");
 			return;
 		}
 
@@ -170,11 +178,15 @@ export const FormEditPage = () => {
 				// 		};
 				// 	})
 				// );
-
+				setShowAlert(true);
+				setMessageOfAlert("Registrando sitio...");
+				setTypeOfAlert("success");
 				reset();
 				navigate(`/vitrina/${res[1]._id}`);
 			} else {
-				alert("Ocurrió un error al crear la vitrina");
+				setShowAlert(true);
+				setMessageOfAlert("Ocurrió un error al editar la vitrina");
+				setTypeOfAlert("error");
 			}
 		} catch (error) {
 			throw new Error(error);
@@ -191,6 +203,13 @@ export const FormEditPage = () => {
 		<Loading />
 	) : (
 		<main className="flex flex-col gap-10 p-10">
+			{showAlert && (
+				<Alert
+					type={typeOfAlert}
+					message={messageOfAlert}
+					onClose={() => setShowAlert(false)}
+				/>
+			)}
 			<form
 				onSubmit={handleSubmit}
 				autoComplete="off"
