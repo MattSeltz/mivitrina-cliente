@@ -6,6 +6,10 @@ import { deleteData, getOneData, putData } from "../services/services";
 import { Loading } from "../components/Loading";
 import { Alert } from "../components/Alert";
 
+//ICONS
+import { Trash } from "../icons/Trash";
+import { Back } from "../icons/Back";
+
 export const EditPage = () => {
 	const navigate = useNavigate();
 
@@ -153,7 +157,7 @@ export const EditPage = () => {
 				to={"/profile"}
 				className="rounded-full shadow-sm shadow-black h-10 w-10 absolute flex justify-center items-center"
 			>
-				⬅
+				<Back />
 			</Link>
 
 			<h1 className="text-center text-xl font-bold tracking-wide">EDITAR</h1>
@@ -211,10 +215,10 @@ export const EditPage = () => {
 						<p>{site.title}</p>{" "}
 						<button
 							onClick={() => handleClickDeleteSite(site._id)}
-							className="rounded-md mt-3 shadow-sm shadow-black p-3 bg-red-500 transition-colors hover:bg-red-600"
+							className="rounded-md flex justify-center items-center gap-1 mt-3 shadow-sm shadow-black p-3 bg-red-500 transition-colors hover:bg-red-600"
 							type="button"
 						>
-							ELIMINAR
+							<Trash /> ELIMINAR
 						</button>
 					</li>
 				))}
@@ -222,9 +226,9 @@ export const EditPage = () => {
 			<button
 				onClick={handleClickDelete}
 				type="button"
-				className="rounded-md shadow-sm shadow-black p-3 bg-red-500 transition-colors hover:bg-red-600"
+				className="rounded-md flex justify-center items-center gap-1 shadow-sm shadow-black p-3 bg-red-500 transition-colors hover:bg-red-600"
 			>
-				ELIMINAR
+				<Trash /> ELIMINAR
 			</button>
 		</main>
 	);

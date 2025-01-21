@@ -5,6 +5,16 @@ import { getOneData } from "../services/services";
 
 import { Loading } from "../components/Loading";
 
+//ICONS
+import { Hamburguer } from "../icons/Hamburguer";
+import { Cross } from "../icons/Cross";
+import { Edit } from "../icons/Edit";
+import { Email } from "../icons/Email";
+import { Phone } from "../icons/Phone";
+import { WhatsApp } from "../icons/WhatsApp";
+import { Instagram } from "../icons/Instagram";
+import { Facebook } from "../icons/Facebook";
+
 export const VitrinaPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [isNotOpen, setIsNotOpen] = useState(true);
@@ -26,9 +36,9 @@ export const VitrinaPage = () => {
 			<div className="gap-5 hidden absolute right-10 md:flex">
 				<Link
 					to={`/vitrina/${site?._id}/edit`}
-					className="hidden justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600 md:flex"
+					className="hidden justify-center gap-1 items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600 md:flex"
 				>
-					EDITAR
+					<Edit /> EDITAR
 				</Link>
 				<Link
 					to="/profile"
@@ -41,9 +51,9 @@ export const VitrinaPage = () => {
 			<button
 				onClick={() => setIsNotOpen(false)}
 				type="button"
-				className="rounded-full absolute right-10 shadow-sm shadow-black  h-10 w-10 md:hidden"
+				className="rounded-full flex justify-center items-center absolute right-10 shadow-sm shadow-black  h-10 w-10 md:hidden"
 			>
-				{isNotOpen ? "O" : "X"}
+				{isNotOpen ? <Hamburguer /> : <Cross />}
 			</button>
 
 			{!isNotOpen && (
@@ -52,16 +62,16 @@ export const VitrinaPage = () => {
 						<button
 							onClick={() => setIsNotOpen(true)}
 							type="button"
-							className="h-10 w-10 ml-auto"
+							className="h-10 w-10 ml-auto flex justify-center items-center"
 						>
-							X
+							<Cross />
 						</button>
 						<li>
 							<Link
 								to={`/vitrina/${site?._id}/edit`}
-								className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
+								className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
 							>
-								EDITAR
+								<Edit /> EDITAR
 							</Link>
 						</li>
 						<li>
@@ -123,6 +133,11 @@ export const VitrinaPage = () => {
 							<span>
 								{site?.dates.lunes.open} - {site?.dates.lunes.close}
 							</span>
+							{!site?.dates.lunes.corrido && (
+								<span>
+									{site?.dates.lunes.openC} - {site?.dates.lunes.closeC}
+								</span>
+							)}
 						</div>
 					</li>
 				)}
@@ -136,6 +151,11 @@ export const VitrinaPage = () => {
 							<span>
 								{site?.dates.martes.open} - {site?.dates.martes.close}
 							</span>
+							{!site?.dates.martes.corrido && (
+								<span>
+									{site?.dates.martes.openC} - {site?.dates.martes.closeC}
+								</span>
+							)}
 						</div>
 					</li>
 				)}
@@ -149,6 +169,11 @@ export const VitrinaPage = () => {
 							<span>
 								{site?.dates.miercoles.open} - {site?.dates.miercoles.close}
 							</span>
+							{!site?.dates.miercoles.corrido && (
+								<span>
+									{site?.dates.miercoles.openC} - {site?.dates.miercoles.closeC}
+								</span>
+							)}
 						</div>
 					</li>
 				)}
@@ -162,6 +187,11 @@ export const VitrinaPage = () => {
 							<span>
 								{site?.dates.jueves.open} - {site?.dates.jueves.close}
 							</span>
+							{!site?.dates.jueves.corrido && (
+								<span>
+									{site?.dates.jueves.openC} - {site?.dates.jueves.closeC}
+								</span>
+							)}
 						</div>
 					</li>
 				)}
@@ -175,6 +205,11 @@ export const VitrinaPage = () => {
 							<span>
 								{site?.dates.viernes.open} - {site?.dates.viernes.close}
 							</span>
+							{!site?.dates.viernes.corrido && (
+								<span>
+									{site?.dates.viernes.openC} - {site?.dates.viernes.closeC}
+								</span>
+							)}
 						</div>
 					</li>
 				)}
@@ -188,6 +223,11 @@ export const VitrinaPage = () => {
 							<span>
 								{site?.dates.sabado.open} - {site?.dates.sabado.close}
 							</span>
+							{!site?.dates.sabado.corrido && (
+								<span>
+									{site?.dates.sabado.openC} - {site?.dates.sabado.closeC}
+								</span>
+							)}
 						</div>
 					</li>
 				)}
@@ -201,6 +241,11 @@ export const VitrinaPage = () => {
 							<span>
 								{site?.dates.domingo.open} - {site?.dates.domingo.close}
 							</span>
+							{!site?.dates.domingo.corrido && (
+								<span>
+									{site?.dates.domingo.openC} - {site?.dates.domingo.closeC}
+								</span>
+							)}
 						</div>
 					</li>
 				)}
@@ -210,13 +255,32 @@ export const VitrinaPage = () => {
 
 			<ul className="flex flex-col gap-3 md:mx-auto md:flex-row md:gap-10">
 				<li>
-					<a href={`mailto:${site?.contact.email}`}>{site?.contact.email}</a>
+					<a
+						href={`mailto:${site?.contact.email}`}
+						target="_blank"
+						className="flex gap-1"
+					>
+						<Email /> {site?.contact.email}
+					</a>
 				</li>
 				<li>
-					<a href={`tel:+54${site?.contact.tel}`}>+54{site?.contact.tel}</a>
+					<a
+						href={`tel:+54${site?.contact.telefono}`}
+						target="_blank"
+						className="flex gap-1"
+					>
+						<Phone />
+						+54{site?.contact.telefono}
+					</a>
 				</li>
 				<li>
-					<a href={`https://wa.me/+54${site?.contact.whatsapp}`}>
+					<a
+						href={`https://wa.me/+54${site?.contact.whatsapp}`}
+						target="_blank"
+						className="flex gap-1"
+					>
+						{" "}
+						<WhatsApp />
 						+54{site?.contact.whatsapp}
 					</a>
 				</li>
@@ -224,16 +288,18 @@ export const VitrinaPage = () => {
 					<a
 						href={`https://instagram.com/${site?.contact.instagram}`}
 						target="_blank"
+						className="flex gap-1"
 					>
-						{site?.contact.instagram}
+						<Instagram /> {site?.contact.instagram}
 					</a>
 				</li>
 				<li>
 					<a
 						href={`https://facebook.com/${site?.contact.facebook}`}
 						target="_blank"
+						className="flex gap-1"
 					>
-						{site?.contact.facebook}
+						<Facebook /> {site?.contact.facebook}
 					</a>
 				</li>
 			</ul>

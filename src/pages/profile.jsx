@@ -5,6 +5,13 @@ import { getOneData } from "../services/services";
 
 import { Loading } from "../components/Loading";
 
+//ICONS
+import { Hamburguer } from "../icons/Hamburguer";
+import { Cross } from "../icons/Cross";
+import { Edit } from "../icons/Edit";
+import { SignOut } from "../icons/SignOut";
+import { More } from "../icons/More";
+
 export const ProfilePage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [isNotOpen, setIsNotOpen] = useState(true);
@@ -31,24 +38,24 @@ export const ProfilePage = () => {
 				<div className="flex gap-5">
 					<Link
 						to={"/edit"}
-						className="hidden justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600 md:flex"
+						className="hidden justify-center gap-1 items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600 md:flex"
 					>
-						EDITAR
+						<Edit /> EDITAR
 					</Link>
 					<Link
 						to="/"
-						className="hidden justify-center items-center shadow-sm shadow-black rounded-md bg-red-500 p-3 tracking-widest transition-colors hover:bg-red-600 md:flex"
+						className="hidden justify-center gap-1 items-center shadow-sm shadow-black rounded-md bg-red-500 p-3 tracking-widest transition-colors hover:bg-red-600 md:flex"
 					>
-						CERRAR SESIÓN
+						<SignOut /> CERRAR SESIÓN
 					</Link>
 				</div>
 
 				<button
 					onClick={() => setIsNotOpen(false)}
 					type="button"
-					className="rounded-full shadow-sm shadow-black h-10 w-10 md:hidden"
+					className="rounded-full flex justify-center items-center shadow-sm shadow-black h-10 w-10 md:hidden"
 				>
-					{isNotOpen ? "O" : "X"}
+					{isNotOpen ? <Hamburguer /> : <Cross />}
 				</button>
 
 				{!isNotOpen && (
@@ -57,24 +64,24 @@ export const ProfilePage = () => {
 							<button
 								onClick={() => setIsNotOpen(true)}
 								type="button"
-								className="h-10 w-10 ml-auto"
+								className="h-10 w-10 ml-auto flex justify-center items-center"
 							>
-								X
+								<Cross />
 							</button>
 							<li>
 								<Link
 									to="/edit"
-									className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
+									className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
 								>
-									EDITAR
+									<Edit /> EDITAR
 								</Link>
 							</li>
 							<li>
 								<Link
 									to="/"
-									className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-red-500 p-3 tracking-widest transition-colors hover:bg-red-600"
+									className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-red-500 p-3 tracking-widest transition-colors hover:bg-red-600"
 								>
-									CERRAR SESIÓN
+									<SignOut /> CERRAR SESIÓN
 								</Link>
 							</li>
 						</ul>
@@ -99,9 +106,9 @@ export const ProfilePage = () => {
 
 				<Link
 					to="/add"
-					className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors absolute bottom-5 right-5 hover:bg-blue-600"
+					className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors absolute bottom-5 right-5 hover:bg-blue-600"
 				>
-					AÑADIR
+					<More /> AÑADIR
 				</Link>
 			</main>
 		</>

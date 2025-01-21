@@ -6,6 +6,9 @@ import { getOneData, putData } from "../services/services";
 import { Loading } from "../components/Loading";
 import { Alert } from "../components/Alert";
 
+//ICONS
+import { Photo } from "../icons/Photo";
+
 export const FormEditPage = () => {
 	const navigate = useNavigate();
 
@@ -22,36 +25,57 @@ export const FormEditPage = () => {
 			checked: false,
 			open: "",
 			close: "",
+			corrido: false,
+			openC: "",
+			closeC: "",
 		},
 		martes: {
 			checked: false,
 			open: "",
 			close: "",
+			corrido: false,
+			openC: "",
+			closeC: "",
 		},
 		miercoles: {
 			checked: false,
 			open: "",
 			close: "",
+			corrido: false,
+			openC: "",
+			closeC: "",
 		},
 		jueves: {
 			checked: false,
 			open: "",
 			close: "",
+			corrido: false,
+			openC: "",
+			closeC: "",
 		},
 		viernes: {
 			checked: false,
 			open: "",
 			close: "",
+			corrido: false,
+			openC: "",
+			closeC: "",
 		},
 		sabado: {
 			checked: false,
 			open: "",
 			close: "",
+			corrido: false,
+			openC: "",
+			closeC: "",
 		},
 		domingo: {
 			checked: false,
 			open: "",
 			close: "",
+			corrido: false,
+			openC: "",
+			closeC: "",
 		},
 	});
 	const [contact, setContact] = useState({
@@ -86,36 +110,57 @@ export const FormEditPage = () => {
 				checked: false,
 				open: "",
 				close: "",
+				corrido: false,
+				openC: "",
+				closeC: "",
 			},
 			martes: {
 				checked: false,
 				open: "",
 				close: "",
+				corrido: false,
+				openC: "",
+				closeC: "",
 			},
 			miercoles: {
 				checked: false,
 				open: "",
 				close: "",
+				corrido: false,
+				openC: "",
+				closeC: "",
 			},
 			jueves: {
 				checked: false,
 				open: "",
 				close: "",
+				corrido: false,
+				openC: "",
+				closeC: "",
 			},
 			viernes: {
 				checked: false,
 				open: "",
 				close: "",
+				corrido: false,
+				openC: "",
+				closeC: "",
 			},
 			sabado: {
 				checked: false,
 				open: "",
 				close: "",
+				corrido: false,
+				openC: "",
+				closeC: "",
 			},
 			domingo: {
 				checked: false,
 				open: "",
 				close: "",
+				corrido: false,
+				openC: "",
+				closeC: "",
 			},
 		});
 		setContact({
@@ -196,7 +241,7 @@ export const FormEditPage = () => {
 
 	const handleCancel = () => {
 		reset();
-		navigate("/profile");
+		navigate(`/vitrina/${location.pathname.split("/")[2]}`);
 	};
 
 	return isLoading ? (
@@ -249,10 +294,16 @@ export const FormEditPage = () => {
 					/>
 				</div>
 				{images?.length < 3 ? (
-					<div className="flex flex-col gap-1 md:gap-3">
-						<label htmlFor="imagenes">IMAGENES</label>
+					<>
+						<label
+							htmlFor="imagenes"
+							className="flex justify-center items-center gap-1 cursor-pointer"
+						>
+							<Photo />
+							IMAGENES
+						</label>
 						<input
-							className="rounded-md p-1 text-black focus:outline-none md:p-3"
+							className="hidden"
 							type="file"
 							name="imagenes"
 							id="imagenes"
@@ -261,7 +312,7 @@ export const FormEditPage = () => {
 								setImages((prev) => [...prev, e.target.files[0]])
 							}
 						/>
-					</div>
+					</>
 				) : (
 					<p>MAXIMO 3 IMAGENES</p>
 				)}
@@ -284,10 +335,10 @@ export const FormEditPage = () => {
 				</ul>
 				<p className="text-center my-5 text-xl font-bold">HORARIO</p>
 				<div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
-					<div>
+					<div className="flex justify-between md:gap-10">
 						<label
 							htmlFor="lunes"
-							style={{ opacity: dates?.lunes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.lunes.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							LUNES
@@ -303,40 +354,91 @@ export const FormEditPage = () => {
 								}))
 							}
 						/>
+						{dates.lunes.checked && (
+							<>
+								<label
+									htmlFor="corrido"
+									style={{ opacity: dates.lunes.corrido ? 1 : 0.5 }}
+									className="cursor-pointer"
+								>
+									HORARIO CORRIDO
+								</label>
+								<input
+									type="checkbox"
+									id="corrido"
+									className="hidden"
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											lunes: { ...prev.lunes, corrido: e.target.checked },
+										}))
+									}
+								/>
+							</>
+						)}
 					</div>
-					{dates?.lunes.checked && (
-						<div>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.lunes.open}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										lunes: { ...prev.lunes, open: e.target.value },
-									}))
-								}
-							/>
-							<span> - </span>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.lunes.close}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										lunes: { ...prev.lunes, close: e.target.value },
-									}))
-								}
-							/>
+					{dates.lunes.checked && (
+						<div className="flex justify-between md:flex-col md:gap-3">
+							<div>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.lunes.open}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											lunes: { ...prev.lunes, open: e.target.value },
+										}))
+									}
+								/>
+								<span> - </span>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.lunes.close}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											lunes: { ...prev.lunes, close: e.target.value },
+										}))
+									}
+								/>
+							</div>
+							{!dates.lunes.corrido && (
+								<div>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.lunes.openC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												lunes: { ...prev.lunes, openC: e.target.value },
+											}))
+										}
+									/>
+									<span> - </span>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.lunes.closeC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												lunes: { ...prev.lunes, closeC: e.target.value },
+											}))
+										}
+									/>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
 				<div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
-					<div>
+					<div className="flex justify-between md:gap-10">
 						<label
 							htmlFor="martes"
-							style={{ opacity: dates?.martes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.martes.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							MARTES
@@ -352,40 +454,91 @@ export const FormEditPage = () => {
 								}))
 							}
 						/>
+						{dates.martes.checked && (
+							<>
+								<label
+									htmlFor="corrido"
+									style={{ opacity: dates.martes.corrido ? 1 : 0.5 }}
+									className="cursor-pointer"
+								>
+									HORARIO CORRIDO
+								</label>
+								<input
+									type="checkbox"
+									id="corrido"
+									className="hidden"
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											martes: { ...prev.martes, corrido: e.target.checked },
+										}))
+									}
+								/>
+							</>
+						)}
 					</div>
-					{dates?.martes.checked && (
-						<div>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.martes.open}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										martes: { ...prev.martes, open: e.target.value },
-									}))
-								}
-							/>
-							<span> - </span>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.martes.close}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										martes: { ...prev.martes, close: e.target.value },
-									}))
-								}
-							/>
+					{dates.martes.checked && (
+						<div className="flex justify-between md:flex-col md:gap-3">
+							<div>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.martes.open}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											martes: { ...prev.martes, open: e.target.value },
+										}))
+									}
+								/>
+								<span> - </span>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.martes.close}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											martes: { ...prev.martes, close: e.target.value },
+										}))
+									}
+								/>
+							</div>
+							{!dates.martes.corrido && (
+								<div>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.martes.openC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												martes: { ...prev.martes, openC: e.target.value },
+											}))
+										}
+									/>
+									<span> - </span>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.martes.closeC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												martes: { ...prev.martes, closeC: e.target.value },
+											}))
+										}
+									/>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
 				<div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
-					<div>
+					<div className="flex justify-between md:gap-10">
 						<label
 							htmlFor="miercoles"
-							style={{ opacity: dates?.miercoles.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.miercoles.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							MIERCOLES
@@ -401,40 +554,97 @@ export const FormEditPage = () => {
 								}))
 							}
 						/>
+						{dates.miercoles.checked && (
+							<>
+								<label
+									htmlFor="corrido"
+									style={{ opacity: dates.miercoles.corrido ? 1 : 0.5 }}
+									className="cursor-pointer"
+								>
+									HORARIO CORRIDO
+								</label>
+								<input
+									type="checkbox"
+									id="corrido"
+									className="hidden"
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											miercoles: {
+												...prev.miercoles,
+												corrido: e.target.checked,
+											},
+										}))
+									}
+								/>
+							</>
+						)}
 					</div>
-					{dates?.miercoles.checked && (
-						<div>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.miercoles.open}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										miercoles: { ...prev.miercoles, open: e.target.value },
-									}))
-								}
-							/>
-							<span> - </span>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.miercoles.close}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										miercoles: { ...prev.miercoles, close: e.target.value },
-									}))
-								}
-							/>
+					{dates.miercoles.checked && (
+						<div className="flex justify-between md:flex-col md:gap-3">
+							<div>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.miercoles.open}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											miercoles: { ...prev.miercoles, open: e.target.value },
+										}))
+									}
+								/>
+								<span> - </span>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.miercoles.close}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											miercoles: { ...prev.miercoles, close: e.target.value },
+										}))
+									}
+								/>
+							</div>
+							{!dates.miercoles.corrido && (
+								<div>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.miercoles.openC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												miercoles: { ...prev.miercoles, openC: e.target.value },
+											}))
+										}
+									/>
+									<span> - </span>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.miercoles.closeC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												miercoles: {
+													...prev.miercoles,
+													closeC: e.target.value,
+												},
+											}))
+										}
+									/>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
 				<div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
-					<div>
+					<div className="flex justify-between md:gap-10">
 						<label
 							htmlFor="jueves"
-							style={{ opacity: dates?.jueves.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.jueves.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							JUEVES
@@ -450,40 +660,91 @@ export const FormEditPage = () => {
 								}))
 							}
 						/>
+						{dates.jueves.checked && (
+							<>
+								<label
+									htmlFor="corrido"
+									style={{ opacity: dates.jueves.corrido ? 1 : 0.5 }}
+									className="cursor-pointer"
+								>
+									HORARIO CORRIDO
+								</label>
+								<input
+									type="checkbox"
+									id="corrido"
+									className="hidden"
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											jueves: { ...prev.jueves, corrido: e.target.checked },
+										}))
+									}
+								/>
+							</>
+						)}
 					</div>
-					{dates?.jueves.checked && (
-						<div>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.jueves.open}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										jueves: { ...prev.jueves, open: e.target.value },
-									}))
-								}
-							/>
-							<span> - </span>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.jueves.close}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										jueves: { ...prev.jueves, close: e.target.value },
-									}))
-								}
-							/>
+					{dates.jueves.checked && (
+						<div className="flex justify-between md:flex-col md:gap-3">
+							<div>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.jueves.open}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											jueves: { ...prev.jueves, open: e.target.value },
+										}))
+									}
+								/>
+								<span> - </span>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.jueves.close}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											jueves: { ...prev.jueves, close: e.target.value },
+										}))
+									}
+								/>
+							</div>
+							{!dates.jueves.corrido && (
+								<div>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.jueves.openC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												jueves: { ...prev.jueves, openC: e.target.value },
+											}))
+										}
+									/>
+									<span> - </span>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.jueves.closeC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												jueves: { ...prev.jueves, closeC: e.target.value },
+											}))
+										}
+									/>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
 				<div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
-					<div>
+					<div className="flex justify-between md:gap-10">
 						<label
 							htmlFor="viernes"
-							style={{ opacity: dates?.viernes.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.viernes.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							VIERNES
@@ -499,40 +760,91 @@ export const FormEditPage = () => {
 								}))
 							}
 						/>
+						{dates.viernes.checked && (
+							<>
+								<label
+									htmlFor="corrido"
+									style={{ opacity: dates.viernes.corrido ? 1 : 0.5 }}
+									className="cursor-pointer"
+								>
+									HORARIO CORRIDO
+								</label>
+								<input
+									type="checkbox"
+									id="corrido"
+									className="hidden"
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											viernes: { ...prev.viernes, corrido: e.target.checked },
+										}))
+									}
+								/>
+							</>
+						)}
 					</div>
-					{dates?.viernes.checked && (
-						<div>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.viernes.open}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										viernes: { ...prev.viernes, open: e.target.value },
-									}))
-								}
-							/>
-							<span> - </span>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.viernes.close}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										viernes: { ...prev.viernes, close: e.target.value },
-									}))
-								}
-							/>
+					{dates.viernes.checked && (
+						<div className="flex justify-between md:flex-col md:gap-3">
+							<div>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.viernes.open}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											viernes: { ...prev.viernes, open: e.target.value },
+										}))
+									}
+								/>
+								<span> - </span>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.viernes.close}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											viernes: { ...prev.viernes, close: e.target.value },
+										}))
+									}
+								/>
+							</div>
+							{!dates.viernes.corrido && (
+								<div>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.viernes.openC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												viernes: { ...prev.viernes, openC: e.target.value },
+											}))
+										}
+									/>
+									<span> - </span>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.viernes.closeC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												viernes: { ...prev.viernes, closeC: e.target.value },
+											}))
+										}
+									/>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
 				<div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
-					<div>
+					<div className="flex justify-between md:gap-10">
 						<label
 							htmlFor="sabado"
-							style={{ opacity: dates?.sabado.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.sabado.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							SABADO
@@ -548,40 +860,91 @@ export const FormEditPage = () => {
 								}))
 							}
 						/>
+						{dates.sabado.checked && (
+							<>
+								<label
+									htmlFor="corrido"
+									style={{ opacity: dates.sabado.corrido ? 1 : 0.5 }}
+									className="cursor-pointer"
+								>
+									HORARIO CORRIDO
+								</label>
+								<input
+									type="checkbox"
+									id="corrido"
+									className="hidden"
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											sabado: { ...prev.sabado, corrido: e.target.checked },
+										}))
+									}
+								/>
+							</>
+						)}
 					</div>
-					{dates?.sabado.checked && (
-						<div>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.sabado.open}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										sabado: { ...prev.sabado, open: e.target.value },
-									}))
-								}
-							/>
-							<span> - </span>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.sabado.close}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										sabado: { ...prev.sabado, close: e.target.value },
-									}))
-								}
-							/>
+					{dates.sabado.checked && (
+						<div className="flex justify-between md:flex-col md:gap-3">
+							<div>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.sabado.open}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											sabado: { ...prev.sabado, open: e.target.value },
+										}))
+									}
+								/>
+								<span> - </span>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.sabado.close}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											sabado: { ...prev.sabado, close: e.target.value },
+										}))
+									}
+								/>
+							</div>
+							{!dates.sabado.corrido && (
+								<div>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.sabado.openC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												sabado: { ...prev.sabado, openC: e.target.value },
+											}))
+										}
+									/>
+									<span> - </span>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.sabado.closeC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												sabado: { ...prev.sabado, closeC: e.target.value },
+											}))
+										}
+									/>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
 				<div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
-					<div>
+					<div className="flex justify-between md:gap-10">
 						<label
 							htmlFor="domingo"
-							style={{ opacity: dates?.domingo.checked ? 1 : 0.5 }}
+							style={{ opacity: dates.domingo.checked ? 1 : 0.5 }}
 							className="cursor-pointer"
 						>
 							DOMINGO
@@ -597,32 +960,83 @@ export const FormEditPage = () => {
 								}))
 							}
 						/>
+						{dates.domingo.checked && (
+							<>
+								<label
+									htmlFor="corrido"
+									style={{ opacity: dates.domingo.corrido ? 1 : 0.5 }}
+									className="cursor-pointer"
+								>
+									HORARIO CORRIDO
+								</label>
+								<input
+									type="checkbox"
+									id="corrido"
+									className="hidden"
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											domingo: { ...prev.domingo, corrido: e.target.checked },
+										}))
+									}
+								/>
+							</>
+						)}
 					</div>
-					{dates?.domingo.checked && (
-						<div>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.domingo.open}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										domingo: { ...prev.domingo, open: e.target.value },
-									}))
-								}
-							/>
-							<span> - </span>
-							<input
-								type="time"
-								className="rounded-md p-1 text-black focus:outline-none md:p-3"
-								value={dates?.domingo.close}
-								onChange={(e) =>
-									setDates((prev) => ({
-										...prev,
-										domingo: { ...prev.domingo, close: e.target.value },
-									}))
-								}
-							/>
+					{dates.domingo.checked && (
+						<div className="flex justify-between md:flex-col md:gap-3">
+							<div>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.domingo.open}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											domingo: { ...prev.domingo, open: e.target.value },
+										}))
+									}
+								/>
+								<span> - </span>
+								<input
+									type="time"
+									className="rounded-md p-1 text-black focus:outline-none md:p-3"
+									value={dates?.domingo.close}
+									onChange={(e) =>
+										setDates((prev) => ({
+											...prev,
+											domingo: { ...prev.domingo, close: e.target.value },
+										}))
+									}
+								/>
+							</div>
+							{!dates.domingo.corrido && (
+								<div>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.domingo.openC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												domingo: { ...prev.domingo, openC: e.target.value },
+											}))
+										}
+									/>
+									<span> - </span>
+									<input
+										type="time"
+										className="rounded-md p-1 text-black focus:outline-none md:p-3"
+										value={dates?.domingo.closeC}
+										onChange={(e) =>
+											setDates((prev) => ({
+												...prev,
+												domingo: { ...prev.domingo, closeC: e.target.value },
+											}))
+										}
+									/>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
@@ -647,7 +1061,7 @@ export const FormEditPage = () => {
 						type="tel"
 						name="telefono"
 						id="telefono"
-						value={contact?.tel}
+						value={contact?.telefono}
 						onChange={(e) =>
 							setContact((prev) => ({ ...prev, tel: e.target.value }))
 						}

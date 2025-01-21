@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 
 import Vitrina from "../assets/mivitrina.svg";
 
+//ICONS
+import { Email } from "../icons/Email";
+import { SignIn } from "../icons/SignIn";
+import { Hamburguer } from "../icons/Hamburguer";
+import { Cross } from "../icons/Cross";
+
 export const HomePage = () => {
 	const [isNotOpen, setIsNotOpen] = useState(true);
 
@@ -22,18 +28,18 @@ export const HomePage = () => {
 					</Link>
 					<Link
 						to="/signIn"
-						className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
+						className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
 					>
-						INICIAR SESIÓN
+						<SignIn /> INICIAR SESIÓN
 					</Link>
 				</div>
 
 				<button
 					onClick={() => setIsNotOpen(false)}
 					type="button"
-					className="rounded-full shadow-sm shadow-black h-10 w-10 md:hidden"
+					className="rounded-full flex justify-center items-center shadow-sm shadow-black h-10 w-10 md:hidden"
 				>
-					{isNotOpen ? "O" : "X"}
+					{isNotOpen ? <Hamburguer /> : <Cross />}
 				</button>
 
 				{!isNotOpen && (
@@ -42,9 +48,9 @@ export const HomePage = () => {
 							<button
 								onClick={() => setIsNotOpen(true)}
 								type="button"
-								className="h-10 w-10 ml-auto"
+								className="h-10 w-10 ml-auto flex justify-center items-center"
 							>
-								X
+								<Cross />
 							</button>
 							<li>
 								<Link
@@ -57,9 +63,9 @@ export const HomePage = () => {
 							<li>
 								<Link
 									to="/signIn"
-									className="flex justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
+									className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
 								>
-									INICIAR SESIÓN
+									<SignIn /> INICIAR SESIÓN
 								</Link>
 							</li>
 						</ul>
@@ -90,8 +96,12 @@ export const HomePage = () => {
 
 				<p>CONTACTO</p>
 
-				<a href="mailto:mivitrina.corp@gmail.com" target="_blank">
-					mivitrina.corp@gmail.com
+				<a
+					href="mailto:mivitrina.corp@gmail.com"
+					target="_blank"
+					className="flex gap-1"
+				>
+					<Email /> mivitrina.corp@gmail.com
 				</a>
 			</main>
 		</>
