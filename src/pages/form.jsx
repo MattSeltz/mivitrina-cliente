@@ -356,7 +356,7 @@ export const FormPage = () => {
 						{dates.lunes.checked && (
 							<>
 								<label
-									htmlFor="corrido"
+									htmlFor="corridoL"
 									style={{ opacity: dates.lunes.corrido ? 1 : 0.5 }}
 									className="cursor-pointer"
 								>
@@ -364,7 +364,7 @@ export const FormPage = () => {
 								</label>
 								<input
 									type="checkbox"
-									id="corrido"
+									id="corridoL"
 									className="hidden"
 									onChange={(e) =>
 										setDates((prev) => ({
@@ -452,7 +452,7 @@ export const FormPage = () => {
 						{dates.martes.checked && (
 							<>
 								<label
-									htmlFor="corrido"
+									htmlFor="corridoMA"
 									style={{ opacity: dates.martes.corrido ? 1 : 0.5 }}
 									className="cursor-pointer"
 								>
@@ -460,7 +460,7 @@ export const FormPage = () => {
 								</label>
 								<input
 									type="checkbox"
-									id="corrido"
+									id="corridoMA"
 									className="hidden"
 									onChange={(e) =>
 										setDates((prev) => ({
@@ -548,7 +548,7 @@ export const FormPage = () => {
 						{dates.miercoles.checked && (
 							<>
 								<label
-									htmlFor="corrido"
+									htmlFor="corridoMI"
 									style={{ opacity: dates.miercoles.corrido ? 1 : 0.5 }}
 									className="cursor-pointer"
 								>
@@ -556,7 +556,7 @@ export const FormPage = () => {
 								</label>
 								<input
 									type="checkbox"
-									id="corrido"
+									id="corridoMI"
 									className="hidden"
 									onChange={(e) =>
 										setDates((prev) => ({
@@ -650,7 +650,7 @@ export const FormPage = () => {
 						{dates.jueves.checked && (
 							<>
 								<label
-									htmlFor="corrido"
+									htmlFor="corridoJ"
 									style={{ opacity: dates.jueves.corrido ? 1 : 0.5 }}
 									className="cursor-pointer"
 								>
@@ -658,7 +658,7 @@ export const FormPage = () => {
 								</label>
 								<input
 									type="checkbox"
-									id="corrido"
+									id="corridoJ"
 									className="hidden"
 									onChange={(e) =>
 										setDates((prev) => ({
@@ -746,7 +746,7 @@ export const FormPage = () => {
 						{dates.viernes.checked && (
 							<>
 								<label
-									htmlFor="corrido"
+									htmlFor="corridoV"
 									style={{ opacity: dates.viernes.corrido ? 1 : 0.5 }}
 									className="cursor-pointer"
 								>
@@ -754,7 +754,7 @@ export const FormPage = () => {
 								</label>
 								<input
 									type="checkbox"
-									id="corrido"
+									id="corridoV"
 									className="hidden"
 									onChange={(e) =>
 										setDates((prev) => ({
@@ -842,7 +842,7 @@ export const FormPage = () => {
 						{dates.sabado.checked && (
 							<>
 								<label
-									htmlFor="corrido"
+									htmlFor="corridoS"
 									style={{ opacity: dates.sabado.corrido ? 1 : 0.5 }}
 									className="cursor-pointer"
 								>
@@ -850,7 +850,7 @@ export const FormPage = () => {
 								</label>
 								<input
 									type="checkbox"
-									id="corrido"
+									id="corridoS"
 									className="hidden"
 									onChange={(e) =>
 										setDates((prev) => ({
@@ -938,7 +938,7 @@ export const FormPage = () => {
 						{dates.domingo.checked && (
 							<>
 								<label
-									htmlFor="corrido"
+									htmlFor="corridoD"
 									style={{ opacity: dates.domingo.corrido ? 1 : 0.5 }}
 									className="cursor-pointer"
 								>
@@ -946,7 +946,7 @@ export const FormPage = () => {
 								</label>
 								<input
 									type="checkbox"
-									id="corrido"
+									id="corridoD"
 									className="hidden"
 									onChange={(e) =>
 										setDates((prev) => ({

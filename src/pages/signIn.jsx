@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { postData } from "../services/services";
 
+import { useUserContext } from "../contexts/UserContext";
+
 import { Loading } from "../components/Loading";
 import { Alert } from "../components/Alert";
 
@@ -11,6 +13,8 @@ import { Back } from "../icons/Back";
 
 export const SignInPage = () => {
 	const navigate = useNavigate();
+
+	const { userId, setUserId } = useUserContext();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
@@ -47,6 +51,7 @@ export const SignInPage = () => {
 				setTypeOfAlert("success");
 				reset();
 				sessionStorage.setItem("id", res[1].id);
+				setUserId(res[1].id);
 				navigate("/profile");
 			} else {
 				setShowAlert(true);

@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { getOneData } from "../services/services";
+import { deleteData, getOneData } from "../services/services";
+
+import { useUserContext } from "../contexts/UserContext";
 
 import { Loading } from "../components/Loading";
 
@@ -13,6 +16,10 @@ import { SignOut } from "../icons/SignOut";
 import { More } from "../icons/More";
 
 export const ProfilePage = () => {
+	const navigate = useNavigate();
+
+	const { useId, setUserId } = useUserContext();
+
 	const [isLoading, setIsLoading] = useState(true);
 	const [isNotOpen, setIsNotOpen] = useState(true);
 	const [user, setUser] = useState(null);
@@ -25,6 +32,18 @@ export const ProfilePage = () => {
 			})
 			.catch((e) => console.error(e));
 	}, []);
+
+	const handleClick = async () => {
+		try {
+			await deleteData("auth/cookie", "0987654321");
+			setUserId(null);
+			sessionStorage.removeItem("id");
+			navigate("/");
+		} catch (error) {
+			console.error(error);
+			throw new Error(error);
+		}
+	};
 
 	return isLoading ? (
 		<Loading />
@@ -42,12 +61,13 @@ export const ProfilePage = () => {
 					>
 						<Edit /> EDITAR
 					</Link>
-					<Link
-						to="/"
+					<button
+						onClick={handleClick}
+						type="button"
 						className="hidden justify-center gap-1 items-center shadow-sm shadow-black rounded-md bg-red-500 p-3 tracking-widest transition-colors hover:bg-red-600 md:flex"
 					>
 						<SignOut /> CERRAR SESIÓN
-					</Link>
+					</button>
 				</div>
 
 				<button
@@ -59,7 +79,7 @@ export const ProfilePage = () => {
 				</button>
 
 				{!isNotOpen && (
-					<nav className="absolute right-10 top-10">
+					<nav className="absolute right-10 top-10 md:hidden">
 						<ul className="flex flex-col gap-3">
 							<button
 								onClick={() => setIsNotOpen(true)}
@@ -77,12 +97,13 @@ export const ProfilePage = () => {
 								</Link>
 							</li>
 							<li>
-								<Link
-									to="/"
+								<button
+									onClick={handleClick}
+									type="button"
 									className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-red-500 p-3 tracking-widest transition-colors hover:bg-red-600"
 								>
 									<SignOut /> CERRAR SESIÓN
-								</Link>
+								</button>
 							</li>
 						</ul>
 					</nav>
