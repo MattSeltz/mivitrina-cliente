@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+//SERVICES
 import { postData } from "../services/services";
 
+//CONTEXTS
 import { useUserContext } from "../contexts/UserContext";
 
-import { Loading } from "../components/Loading";
-import { Alert } from "../components/Alert";
-
-//ICONS
-import { Back } from "../icons/Back";
+//COMPONENTS
+import { Loading } from "../components/reutilizables/Loading";
+import { Alert } from "../components/reutilizables/Alert";
+import { Input } from "../components/reutilizables/Input";
+import { Button } from "../components/reutilizables/Button";
+import { BackLink } from "../components/reutilizables/BackLink";
 
 export const SignInPage = () => {
 	const navigate = useNavigate();
@@ -76,12 +79,7 @@ export const SignInPage = () => {
 					onClose={() => setShowAlert(false)}
 				/>
 			)}
-			<Link
-				to={"/"}
-				className="rounded-full shadow-sm shadow-black h-10 w-10 absolute flex justify-center items-center"
-			>
-				<Back />
-			</Link>
+			<BackLink />
 
 			<h1 className="text-center text-xl font-bold tracking-wide">
 				INICIAR SESIÓN
@@ -92,35 +90,20 @@ export const SignInPage = () => {
 				autoComplete="off"
 				className="max-w-xl mx-auto w-full flex flex-col gap-5"
 			>
-				<div className="flex flex-col gap-1 md:gap-3">
-					<label htmlFor="email">EMAIL</label>
-					<input
-						className="rounded-md p-1  text-black focus:outline-none md:p-3"
-						type="email"
-						name="email"
-						id="email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</div>
-				<div className="flex flex-col gap-1 md:gap-3">
-					<label htmlFor="password">CONTRASEÑA</label>
-					<input
-						className="rounded-md p-1 text-black focus:outline-none md:p-3"
-						type="password"
-						name="password"
-						id="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</div>
-				<Link to={"/recovery"}>¿OLVIDASTE TU CONTRASEÑA?</Link>
-				<button
-					type="submit"
-					className="shadow-sm shadow-black rounded-md bg-blue-500 p-3 mt-3 transition-colors hover:bg-blue-600"
+				<Input id={"email"} type={"email"} value={email} setValue={setEmail}>
+					EMAIL
+				</Input>
+				<Input
+					id={"password"}
+					type={"password"}
+					value={password}
+					setValue={setPassword}
 				>
-					INICIAR SESIÓN
-				</button>
+					CONTRASEÑA
+				</Input>
+
+				<Link to={"/recovery"}>¿OLVIDASTE TU CONTRASEÑA?</Link>
+				<Button>INICIAR SESIÓN</Button>
 			</form>
 		</main>
 	);

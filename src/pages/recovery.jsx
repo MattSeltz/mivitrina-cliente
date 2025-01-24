@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+//SERVICES
 import { postData, putData } from "../services/services";
 
-import { Loading } from "../components/Loading";
-import { Alert } from "../components/Alert";
-
-//ICONS
-import { Back } from "../icons/Back";
+//COMPONENTS
+import { Loading } from "../components/reutilizables/Loading";
+import { Alert } from "../components/reutilizables/Alert";
+import { BackLink } from "../components/reutilizables/BackLink";
+import { Input } from "../components/reutilizables/Input";
+import { Button } from "../components/reutilizables/Button";
 
 export const RecoveryPage = () => {
 	const navigate = useNavigate();
@@ -150,12 +152,8 @@ export const RecoveryPage = () => {
 					onClose={() => setShowAlert(false)}
 				/>
 			)}
-			<Link
-				to={"/"}
-				className="rounded-full shadow-sm shadow-black h-10 w-10 absolute flex justify-center items-center"
-			>
-				<Back />
-			</Link>
+			<BackLink />
+
 			<h1 className="text-center text-xl font-bold tracking-wide">
 				REESTABLECER CONTRASEÑA
 			</h1>
@@ -166,17 +164,14 @@ export const RecoveryPage = () => {
 					autoComplete="off"
 					className="max-w-xl mx-auto w-full flex flex-col gap-5"
 				>
-					<div className="flex flex-col gap-1 md:gap-3">
-						<label htmlFor="password">NUEVA CONTRASEÑA</label>
-						<input
-							className="rounded-md p-1  text-black focus:outline-none md:p-3"
-							type="password"
-							name="password"
-							id="password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</div>
+					<Input
+						id={"password"}
+						type={"password"}
+						value={password}
+						setValue={setPassword}
+					>
+						NUEVA CONTRASEÑA
+					</Input>
 					<div className="flex flex-col gap-1 md:gap-3">
 						<label htmlFor="passwordR">REPETIR NUEVA CONTRASEÑA</label>
 						<input
@@ -194,12 +189,7 @@ export const RecoveryPage = () => {
 							onChange={(e) => setPasswordR(e.target.value)}
 						/>
 					</div>
-					<button
-						type="submit"
-						className="shadow-sm shadow-black rounded-md bg-blue-500 p-3 mt-3 transition-colors hover:bg-blue-600"
-					>
-						GUARDAR
-					</button>
+					<Button>GUARDAR</Button>
 				</form>
 			) : (
 				<form
@@ -208,36 +198,20 @@ export const RecoveryPage = () => {
 					className="max-w-xl mx-auto w-full flex flex-col gap-5"
 				>
 					{isSendCode ? (
-						<div className="flex flex-col gap-1 md:gap-3">
-							<label htmlFor="code">CÓDIGO</label>
-							<input
-								className="rounded-md p-1  text-black focus:outline-none md:p-3"
-								type="text"
-								name="code"
-								id="code"
-								value={code}
-								onChange={(e) => setCode(e.target.value)}
-							/>
-						</div>
+						<Input id={"code"} type={"text"} value={code} setValue={setCode}>
+							CÓDIGO
+						</Input>
 					) : (
-						<div className="flex flex-col gap-1 md:gap-3">
-							<label htmlFor="email">EMAIL</label>
-							<input
-								className="rounded-md p-1  text-black focus:outline-none md:p-3"
-								type="email"
-								name="email"
-								id="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</div>
+						<Input
+							id={"email"}
+							type={"email"}
+							value={email}
+							setValue={setEmail}
+						>
+							EMAIL
+						</Input>
 					)}
-					<button
-						type="submit"
-						className="shadow-sm shadow-black rounded-md bg-blue-500 p-3 mt-3 transition-colors hover:bg-blue-600"
-					>
-						ENVIAR CÓDIGO
-					</button>
+					<Button>ENVIAR CÓDIGO</Button>
 				</form>
 			)}
 		</main>
