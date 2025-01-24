@@ -5,12 +5,12 @@ import { Edit } from "../../icons/Edit";
 import { Cross } from "../../icons/Cross";
 import { Hamburguer } from "../../icons/Hamburguer";
 
-export const Header = ({ site, isNotOpen, setIsNotOpen }) => {
+export const Header = ({ site, isNotOpen, setIsNotOpen, slug }) => {
 	return (
 		<>
 			<div className="gap-5 hidden absolute right-10 md:flex">
 				<Link
-					to={`/vitrina/${site?._id}/edit`}
+					to={`/vitrina/${slug}/edit`}
 					className="hidden justify-center gap-1 items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600 md:flex"
 				>
 					<Edit /> EDITAR

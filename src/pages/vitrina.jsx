@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 //SERVICES
@@ -22,13 +23,14 @@ import { Facebook } from "../icons/Facebook";
 
 export const VitrinaPage = () => {
 	const { userId } = useUserContext();
+	const { slug } = useParams();
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [isNotOpen, setIsNotOpen] = useState(true);
 	const [site, setSite] = useState(null);
 
 	useEffect(() => {
-		getOneData("site", location.pathname.split("/")[2])
+		getOneData("site/title", slug)
 			.then((res) => {
 				res && setSite(res[1]);
 				setIsLoading(false);
@@ -41,7 +43,12 @@ export const VitrinaPage = () => {
 	) : (
 		<main className="flex flex-col gap-10 p-10">
 			{userId === site?.user._id && (
-				<Header site={site} isNotOpen={isNotOpen} setIsNotOpen={setIsNotOpen} />
+				<Header
+					site={site}
+					isNotOpen={isNotOpen}
+					setIsNotOpen={setIsNotOpen}
+					slug={slug}
+				/>
 			)}
 
 			<h1 className="text-center text-xl font-bold tracking-wide">

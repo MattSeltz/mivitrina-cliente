@@ -237,7 +237,7 @@ export const FormPage = () => {
 				setMessageOfAlert("Registrando sitio...");
 				setTypeOfAlert("success");
 				reset();
-				navigate(`/vitrina/${res[1]._id}`);
+				navigate(`/vitrina/${res[1].title.toLowerCase().split(" ").join("")}`);
 			} else {
 				setShowAlert(true);
 				setMessageOfAlert("Ocurrió un error al crear la vitrina");

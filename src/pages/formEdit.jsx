@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 //SERVICES
 import { getOneData, putData } from "../services/services";
@@ -18,6 +18,7 @@ import { Photo } from "../icons/Photo";
 
 export const FormEditPage = () => {
 	const navigate = useNavigate();
+	const { slug } = useParams();
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [showAlert, setShowAlert] = useState(false);
@@ -94,7 +95,7 @@ export const FormEditPage = () => {
 	});
 
 	useEffect(() => {
-		getOneData("site", location.pathname.split("/")[2])
+		getOneData("site/title", slug)
 			.then((res) => {
 				setTitle(res[1].title);
 				setDescription(res[1].description);
@@ -228,7 +229,7 @@ export const FormEditPage = () => {
 				setMessageOfAlert("Registrando sitio...");
 				setTypeOfAlert("success");
 				reset();
-				navigate(`/vitrina/${res[1]._id}`);
+				navigate(`/vitrina/${slug}`);
 			} else {
 				setShowAlert(true);
 				setMessageOfAlert("Ocurrió un error al editar la vitrina");
@@ -242,7 +243,7 @@ export const FormEditPage = () => {
 
 	const handleCancel = () => {
 		reset();
-		navigate(`/vitrina/${location.pathname.split("/")[2]}`);
+		navigate(`/vitrina/${slug}`);
 	};
 
 	const removeImage = (index) => {

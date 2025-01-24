@@ -33,13 +33,13 @@ export const Router = () => {
 					<Route path="/profile" element={<ProfilePage />} />
 					<Route path="/add" element={<FormPage />} />
 					<Route path="/edit" element={<EditPage />} />
-					<Route path="/vitrina/:id/edit" element={<FormEditPage />} />
+					<Route path="/vitrina/:slug/edit" element={<FormEditPage />} />
 				</>
 			)}
 			<Route path="/recovery" element={<RecoveryPage />} />
 			<Route path="/signUp" element={<SignUpPage />} />
 			<Route path="/signIn" element={<SignInPage />} />
-			<Route path="/vitrina/:id" element={<VitrinaPage />} />
+			<Route path="/vitrina/:slug" element={<VitrinaPage />} />
 			<Route path="/" element={<HomePage />} />
 		</Routes>
 	);

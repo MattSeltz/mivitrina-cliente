@@ -49,6 +49,7 @@ export const Day = ({ dates, setDates, day }) => {
 						<input
 							type="time"
 							className="rounded-md p-1 text-black focus:outline-none md:p-3"
+							value={dates[day].open}
 							onChange={(e) =>
 								setDates((prev) => ({
 									...prev,
@@ -60,6 +61,7 @@ export const Day = ({ dates, setDates, day }) => {
 						<input
 							type="time"
 							className="rounded-md p-1 text-black focus:outline-none md:p-3"
+							value={dates[day].close}
 							onChange={(e) =>
 								setDates((prev) => ({
 									...prev,
@@ -73,6 +75,7 @@ export const Day = ({ dates, setDates, day }) => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates[day].openC}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
@@ -84,6 +87,7 @@ export const Day = ({ dates, setDates, day }) => {
 							<input
 								type="time"
 								className="rounded-md p-1 text-black focus:outline-none md:p-3"
+								value={dates[day].closeC}
 								onChange={(e) =>
 									setDates((prev) => ({
 										...prev,
