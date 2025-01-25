@@ -59,7 +59,7 @@ export const VitrinaPage = () => {
 
 			<ul className="hidden gap-10 justify-center md:flex">
 				{site?.galery.map((item) => (
-					<Img key={item._id} item={item} site={site} />
+					<Img key={item.id} item={item} site={site} />
 				))}
 			</ul>
 
@@ -68,17 +68,6 @@ export const VitrinaPage = () => {
 			<p className="md:text-center">
 				ENCONTRANOS EN <b>{site?.ubication}</b>
 			</p>
-
-			<iframe
-				src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18396.245944531063!2d-68.30721615449222!3d-54.80578993960385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xbc4c2368c5630631%3A0x75c44765acae1afd!2sTante%20Sara%20-%20Caf%C3%A9%20%26%20Bar!5e0!3m2!1ses-419!2sar!4v1735822627396!5m2!1ses-419!2sar"
-				width="100%"
-				height="225"
-				style={{ border: "0px" }}
-				allowFullScreen=""
-				loading="lazy"
-				referrerPolicy="no-referrer-when-downgrade"
-				className="max-w-3xl mx-auto md:h-96"
-			></iframe>
 
 			<p className="text-center">HORARIOS</p>
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 //SERVICES
-import { getOneData, putData } from "../services/services";
+import { getOneData, postData, putData } from "../services/services";
 
 //COMPONENTS
 import { Loading } from "../components/reutilizables/Loading";
@@ -12,9 +12,6 @@ import { Image } from "../components/formEdit/Image";
 import { Day } from "../components/reutilizables/Day";
 import { Contact } from "../components/reutilizables/Contact";
 import { Button } from "../components/reutilizables/Button";
-
-//ICONS
-import { Photo } from "../icons/Photo";
 
 export const FormEditPage = () => {
 	const navigate = useNavigate();
@@ -93,6 +90,7 @@ export const FormEditPage = () => {
 		instagram: "",
 		facebook: "",
 	});
+	const [siteId, setSiteId] = useState(null);
 
 	useEffect(() => {
 		getOneData("site/title", slug)
@@ -104,6 +102,7 @@ export const FormEditPage = () => {
 				setImages(res[1].galery);
 				setContact(res[1].contact);
 				setIsLoading(false);
+				setSiteId(res[1]._id);
 			})
 			.catch((e) => console.error(e));
 	}, []);
@@ -180,6 +179,7 @@ export const FormEditPage = () => {
 		});
 		setTypeOfAlert("");
 		setMessageOfAlert("");
+		setSiteId(null);
 	};
 
 	const handleSubmit = async (e) => {
@@ -188,7 +188,6 @@ export const FormEditPage = () => {
 		if (
 			!title ||
 			!description ||
-			images.length < 3 ||
 			!ubication ||
 			!contact.email ||
 			!contact.facebook ||
@@ -214,17 +213,6 @@ export const FormEditPage = () => {
 			});
 
 			if (res[0]) {
-				// await Promise.all(
-				// 	images.map((file) => {
-				// 		const reader = new FileReader();
-				// 		reader.readAsDataURL(file);
-				// 		reader.onloadend = async () => {
-				// 			await postData(`site/${res[1]._id}/upload`, {
-				// 				image: reader.result,
-				// 			});
-				// 		};
-				// 	})
-				// );
 				setShowAlert(true);
 				setMessageOfAlert("Registrando sitio...");
 				setTypeOfAlert("success");
@@ -246,10 +234,26 @@ export const FormEditPage = () => {
 		navigate(`/vitrina/${slug}`);
 	};
 
-	const removeImage = (index) => {
-		const imagesCP = [...images];
-		const newImages = imagesCP.filter((_, i) => i !== index);
-		setImages(newImages);
+	const handleClickUpdateImages = async (id, file) => {
+		try {
+			setIsLoading(true);
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onloadend = async () => {
+				await postData(`site/${siteId}/uploadAndUpdate`, {
+					image: reader.result,
+					photoId: id,
+				});
+
+				const res = await getOneData("site/title", slug);
+
+				setImages(res[1].galery);
+
+				setIsLoading(false);
+			};
+		} catch (error) {
+			throw new Error(error);
+		}
 	};
 
 	return isLoading ? (
@@ -292,32 +296,13 @@ export const FormEditPage = () => {
 					UBICACIÓN
 				</Input>
 
-				{images?.length < 3 ? (
-					<>
-						<label
-							htmlFor="imagenes"
-							className="flex justify-center items-center gap-1 cursor-pointer"
-						>
-							<Photo />
-							IMAGENES
-						</label>
-						<input
-							className="hidden"
-							type="file"
-							name="imagenes"
-							id="imagenes"
-							accept=".jpg, .jpeg, .png"
-							onChange={(e) =>
-								setImages((prev) => [...prev, e.target.files[0]])
-							}
-						/>
-					</>
-				) : (
-					<p>MAXIMO 3 IMAGENES</p>
-				)}
 				<ul className="flex flex-col gap-10">
-					{images?.map((image, index) => (
-						<Image key={index} image={image} evt={() => removeImage(index)} />
+					{images?.map((image) => (
+						<Image
+							key={image.id}
+							image={image}
+							evt={(e) => handleClickUpdateImages(image.id, e.target.files[0])}
+						/>
 					))}
 				</ul>
 				<p className="text-center my-5 text-xl font-bold">HORARIO</p>

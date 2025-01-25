@@ -383,7 +383,6 @@ export const FormPage = () => {
 				>
 					FACEBOOK
 				</Contact>
-
 				<div className="flex justify-between">
 					<button
 						onClick={handleCancel}
