@@ -7,6 +7,9 @@ import { postData } from "../services/services";
 //CONTEXTS
 import { useUserContext } from "../contexts/UserContext";
 
+//HELPERS
+import { handleError } from "../helpers/handleError";
+
 //COMPONENTS
 import { Loading } from "../components/reutilizables/Loading";
 import { Alert } from "../components/reutilizables/Alert";
@@ -62,10 +65,10 @@ export const SignInPage = () => {
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
-
-		setIsLoading(false);
 	};
 
 	return isLoading ? (

@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 //SERVICES
 import { deleteData, getOneData, putData } from "../services/services";
 
+//HELPERs
+import { handleError } from "../helpers/handleError";
+
 //COMPONENTS
 import { Loading } from "../components/reutilizables/Loading";
 import { Alert } from "../components/reutilizables/Alert";
@@ -33,9 +36,9 @@ export const EditPage = () => {
 				setName(res[1].name);
 				setEmail(res[1].email);
 				setSites(res[1].sites);
-				setIsLoading(false);
 			})
-			.catch((e) => console.error(e));
+			.catch((e) => console.error(e))
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	const reset = () => {
@@ -84,13 +87,15 @@ export const EditPage = () => {
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
-		setIsLoading(false);
 	};
 
 	const handleClickDeleteSite = async (id) => {
 		setIsLoading(true);
+
 		try {
 			await deleteData("site", id);
 			const cpSites = [...sites];
@@ -110,16 +115,18 @@ export const EditPage = () => {
 				setMessageOfAlert("Ocurrió un error al eliminar el sitio");
 				setTypeOfAlert("error");
 			}
-			setIsLoading(false);
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
 	const handleClickDelete = async () => {
+		setIsLoading(true);
+
 		try {
 			if (confirm("Estas seguro que deseas eliminar tu usuario")) {
-				setIsLoading(true);
 				const cpSites = [...sites];
 				await Promise.all(
 					cpSites.map(async (site) => {
@@ -140,10 +147,11 @@ export const EditPage = () => {
 					setMessageOfAlert("Ocurrió un error al eliminar tu usuario");
 					setTypeOfAlert("error");
 				}
-				setIsLoading(false);
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 

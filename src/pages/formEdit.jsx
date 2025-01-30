@@ -4,6 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 //SERVICES
 import { getOneData, postData, putData } from "../services/services";
 
+//HELPERS
+import { handleError } from "../helpers/handleError";
+
 //COMPONENTS
 import { Loading } from "../components/reutilizables/Loading";
 import { Alert } from "../components/reutilizables/Alert";
@@ -101,10 +104,11 @@ export const FormEditPage = () => {
 				setDates(res[1].dates);
 				setImages(res[1].galery);
 				setContact(res[1].contact);
-				setIsLoading(false);
+
 				setSiteId(res[1]._id);
 			})
-			.catch((e) => console.error(e));
+			.catch((e) => console.error(e))
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	const reset = () => {
@@ -224,9 +228,10 @@ export const FormEditPage = () => {
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
-		setIsLoading(false);
 	};
 
 	const handleCancel = () => {
@@ -235,8 +240,9 @@ export const FormEditPage = () => {
 	};
 
 	const handleClickUpdateImages = async (id, file) => {
+		setIsLoading(true);
+
 		try {
-			setIsLoading(true);
 			const reader = new FileReader();
 			reader.readAsDataURL(file);
 			reader.onloadend = async () => {
@@ -248,11 +254,11 @@ export const FormEditPage = () => {
 				const res = await getOneData("site/title", slug);
 
 				setImages(res[1].galery);
-
-				setIsLoading(false);
 			};
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 

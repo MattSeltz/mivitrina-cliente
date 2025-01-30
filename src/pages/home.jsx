@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 //IMAGES
 import Vitrina from "../assets/mivitrina.svg";
@@ -38,16 +39,69 @@ export const HomePage = () => {
 					ahora y haz que te encuentren fácilmente!
 				</p>
 
-				<p>CONTACTO</p>
+				<Link to="/signUp" className="bg-blue-500 rounded-md p-3 mx-auto my-3">
+					EMPIEZA GRATIS
+				</Link>
 
-				<a
-					href="mailto:mivitrina.corp@gmail.com"
-					target="_blank"
-					className="flex gap-1"
-				>
-					<Email /> mivitrina.corp@gmail.com
-				</a>
+				<section className="flex flex-col gap-10 md:flex-row justify-between">
+					<div className="flex flex-col gap-3">
+						<p>CONTACTO</p>
+
+						<a
+							href="mailto:mivitrina.corp@gmail.com"
+							target="_blank"
+							className="flex gap-1"
+						>
+							<Email /> mivitrina.corp@gmail.com
+						</a>
+					</div>
+					<div className="flex flex-col gap-3">
+						<p>SOPORTE</p>
+
+						<Link
+							to={"/soporte"}
+							className="text-blue-500 transition-colors hover:text-blue-600"
+						>
+							ENVIANOS TU CONSULTA
+						</Link>
+					</div>
+				</section>
 			</main>
+
+			<footer className="bg-gray-800 text-white py-4 px-4">
+				<div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
+					<p className="text-sm text-center md:text-left">
+						© {new Date().getFullYear()} MiVitrina. Todos los derechos
+						reservados.
+					</p>
+					<Link to={"/preguntas"} className="hover:underline text-sm">
+						Preguntas frecuentes
+					</Link>
+					<ul className="flex space-x-4 mt-2 md:mt-0">
+						<li>
+							<Link className="hover:underline text-sm" to={"/terminos"}>
+								{" "}
+								Términos y condiciones
+							</Link>
+						</li>
+						<li>
+							<Link className="hover:underline text-sm" to={"/privacidad"}>
+								Política de privacidad
+							</Link>
+						</li>
+						<li>
+							<a
+								href="https://matias-seltzer.netlify.app/"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="hover:underline text-sm"
+							>
+								Desarrollado por Matías Seltzer
+							</a>
+						</li>
+					</ul>
+				</div>
+			</footer>
 		</>
 	);
 };

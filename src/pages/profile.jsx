@@ -27,11 +27,9 @@ export const ProfilePage = () => {
 
 	useEffect(() => {
 		getOneData("user", sessionStorage.getItem("id"))
-			.then((res) => {
-				res && setUser(res[1]);
-				setIsLoading(false);
-			})
-			.catch((e) => console.error(e));
+			.then((res) => res && setUser(res[1]))
+			.catch((e) => console.error(e))
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	const handleClick = async () => {
@@ -42,7 +40,6 @@ export const ProfilePage = () => {
 			navigate("/");
 		} catch (error) {
 			console.error(error);
-			throw new Error(error);
 		}
 	};
 

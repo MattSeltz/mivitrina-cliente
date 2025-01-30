@@ -13,6 +13,10 @@ import { RecoveryPage } from "../pages/recovery";
 import { EditPage } from "../pages/edit";
 import { FormEditPage } from "../pages/formEdit";
 import { NotFound } from "../pages/notFound";
+import { TerminosPage } from "../pages/terminos";
+import { PrivacidadPage } from "../pages/privacidad";
+import { SoportePage } from "../pages/soporte";
+import { PreguntasPage } from "../pages/preguntas";
 
 export const Router = () => {
 	const { userId, setUserId } = useUserContext();
@@ -41,6 +45,10 @@ export const Router = () => {
 			<Route path="/signIn" element={<SignInPage />} />
 			<Route path="/vitrina/:slug" element={<VitrinaPage />} />
 			<Route path="/" element={<HomePage />} />
+			<Route path="/terminos" element={<TerminosPage />} />
+			<Route path="/privacidad" element={<PrivacidadPage />} />
+			<Route path="/soporte" element={<SoportePage />} />
+			<Route path="/preguntas" element={<PreguntasPage />} />
 		</Routes>
 	);
 };

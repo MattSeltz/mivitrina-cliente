@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 //SERVICES
 import { postData, putData } from "../services/services";
 
+//HELPERS
+import { handleError } from "../helpers/handleError";
+
 //COMPONENTS
 import { Loading } from "../components/reutilizables/Loading";
 import { Alert } from "../components/reutilizables/Alert";
@@ -62,10 +65,10 @@ export const RecoveryPage = () => {
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
-
-		setIsLoading(false);
 	};
 
 	const handleSubmitCode = async (e) => {
@@ -94,10 +97,10 @@ export const RecoveryPage = () => {
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
-
-		setIsLoading(false);
 	};
 
 	const handleSubmitPassword = async (e) => {
@@ -135,10 +138,10 @@ export const RecoveryPage = () => {
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
-
-		setIsLoading(false);
 	};
 
 	return isLoading ? (

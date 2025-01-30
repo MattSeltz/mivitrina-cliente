@@ -31,11 +31,9 @@ export const VitrinaPage = () => {
 
 	useEffect(() => {
 		getOneData("site/title", slug)
-			.then((res) => {
-				res && setSite(res[1]);
-				setIsLoading(false);
-			})
-			.catch((e) => console.error(e));
+			.then((res) => res && setSite(res[1]))
+			.catch((e) => console.error(e))
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	return isLoading ? (

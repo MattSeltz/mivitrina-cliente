@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 //SERVICES
 import { postData, putData } from "../services/services";
 
+//HELPERS
+import { handleError } from "../helpers/handleError";
+
 //COMPONENTS
 import { Loading } from "../components/reutilizables/Loading";
 import { Alert } from "../components/reutilizables/Alert";
@@ -12,6 +15,7 @@ import { Image } from "../components/form/Image";
 import { Day } from "../components/reutilizables/Day";
 import { Contact } from "../components/reutilizables/Contact";
 import { Button } from "../components/reutilizables/Button";
+import { URLModal } from "../components/form/Modal.jsx";
 
 //ICONS
 import { Photo } from "../icons/Photo";
@@ -19,6 +23,7 @@ import { Photo } from "../icons/Photo";
 export const FormPage = () => {
 	const navigate = useNavigate();
 
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [typeOfAlert, setTypeOfAlert] = useState("");
@@ -163,8 +168,6 @@ export const FormPage = () => {
 			instagram: "",
 			facebook: "",
 		});
-		setTypeOfAlert("");
-		setMessageOfAlert("");
 	};
 
 	const removeImage = (index) => {
@@ -237,16 +240,17 @@ export const FormPage = () => {
 				setMessageOfAlert("Registrando sitio...");
 				setTypeOfAlert("success");
 				reset();
-				navigate(`/vitrina/${res[1].title.toLowerCase().split(" ").join("")}`);
+				setIsModalOpen(true);
 			} else {
 				setShowAlert(true);
 				setMessageOfAlert("Ocurrió un error al crear la vitrina");
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
-		setIsLoading(false);
 	};
 
 	const handleCancel = () => {
@@ -265,6 +269,10 @@ export const FormPage = () => {
 					onClose={() => setShowAlert(false)}
 				/>
 			)}
+			<URLModal
+				url={"http://localhost:5173/vitrina/lorem"}
+				isOpen={isModalOpen}
+			/>
 			<form
 				onSubmit={handleSubmit}
 				autoComplete="off"

@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //SERVICES
 import { postData } from "../services/services";
+
+//HELPERS
+import { handleError } from "../helpers/handleError";
 
 //COMPONENTS
 import { Loading } from "../components/reutilizables/Loading";
@@ -21,6 +24,7 @@ export const SignUpPage = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [tcp, setTcp] = useState(false);
 
 	const reset = () => {
 		setName("");
@@ -28,6 +32,7 @@ export const SignUpPage = () => {
 		setPassword("");
 		setTypeOfAlert("");
 		setMessageOfAlert("");
+		setTcp(false);
 	};
 
 	const handleSubmit = async (e) => {
@@ -40,10 +45,24 @@ export const SignUpPage = () => {
 			return;
 		}
 
+		if (!tcp) {
+			setShowAlert(true);
+			setMessageOfAlert(
+				"Debes aceptar los terminos y condiciones y las politicas de privacidad para continuar"
+			);
+			setTypeOfAlert("warning");
+			return;
+		}
+
 		setIsLoading(true);
 
 		try {
-			const res = await postData("auth/register", { name, email, password });
+			const res = await postData("auth/register", {
+				name,
+				email,
+				password,
+				tcp,
+			});
 
 			if (res[0]) {
 				setShowAlert(true);
@@ -57,10 +76,10 @@ export const SignUpPage = () => {
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
-			throw new Error(error);
+			handleError(error, setShowAlert, setMessageOfAlert, setTypeOfAlert);
+		} finally {
+			setIsLoading(false);
 		}
-
-		setIsLoading(false);
 	};
 
 	return isLoading ? (
@@ -99,6 +118,33 @@ export const SignUpPage = () => {
 				>
 					CONTRASEÑA
 				</Input>
+				<div className="flex gap-3">
+					<input
+						type="checkbox"
+						id="tcp"
+						name="tcp"
+						value={tcp}
+						onChange={(e) => setTcp(e.target.checked)}
+					/>
+					<label htmlFor="tcp">
+						Acepto los{" "}
+						<a
+							href="/terminos"
+							target="_blank"
+							className="text-blue-500 transition-colors hover:text-blue-600"
+						>
+							terminos y condiciones
+						</a>
+						y las{" "}
+						<a
+							href="/privacidad"
+							target="_blank"
+							className="text-blue-500 transition-colors hover:text-blue-600"
+						>
+							politicas de privacidad
+						</a>
+					</label>
+				</div>
 				<Button>REGISTRARSE</Button>
 			</form>
 		</main>
