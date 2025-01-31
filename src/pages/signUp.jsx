@@ -72,7 +72,7 @@ export const SignUpPage = () => {
 				navigate("/signIn");
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al crear el usuario");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {

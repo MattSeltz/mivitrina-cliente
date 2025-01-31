@@ -18,9 +18,7 @@ export const HomePage = () => {
 			<Header isNotOpen={isNotOpen} setIsNotOpen={setIsNotOpen} />
 
 			<main className="flex flex-col gap-10 p-10 max-w-3xl mx-auto">
-				<p className="text-center text-xl font-bold tracking-wide">
-					MI VITRINA
-				</p>
+				<p className="text-center text-xl font-bold tracking-wide">MiVitrina</p>
 
 				<p>
 					Lleva tu negocio al siguiente nivel con MiVitrina: la forma más simple

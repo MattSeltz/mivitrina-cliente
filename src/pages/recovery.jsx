@@ -61,7 +61,7 @@ export const RecoveryPage = () => {
 				setIsSendCode(true);
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al enviar el código");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
@@ -93,7 +93,7 @@ export const RecoveryPage = () => {
 				setIsSetPassword(true);
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al enviar el código");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
@@ -134,7 +134,7 @@ export const RecoveryPage = () => {
 				navigate("/signIn");
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al enviar el código");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {

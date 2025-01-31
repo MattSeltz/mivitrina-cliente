@@ -61,7 +61,7 @@ export const SignInPage = () => {
 				navigate("/profile");
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al iniciar sesión");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {

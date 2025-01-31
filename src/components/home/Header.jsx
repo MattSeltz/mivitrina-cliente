@@ -9,7 +9,7 @@ export const Header = ({ setIsNotOpen, isNotOpen }) => {
 	return (
 		<header className="flex justify-between items-center shadow-sm shadow-black p-10 relative">
 			<h1 className="text-center text-xl font-bold tracking-widest">
-				MI VITRINA
+				MiVitrina
 			</h1>
 
 			<div className="gap-10 hidden md:flex">

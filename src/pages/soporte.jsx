@@ -53,7 +53,7 @@ export const SoportePage = () => {
 				navigate("/");
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al enviar el mensaje");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {

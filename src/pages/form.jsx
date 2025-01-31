@@ -243,7 +243,7 @@ export const FormPage = () => {
 				setIsModalOpen(true);
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al crear la vitrina");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
@@ -301,33 +301,6 @@ export const FormPage = () => {
 					UBICACIÓN
 				</Input>
 
-				{images.length < 3 ? (
-					<>
-						<label
-							htmlFor="imagenes"
-							className="flex justify-center items-center gap-1 cursor-pointer"
-						>
-							<Photo /> IMAGENES
-						</label>
-						<input
-							className="hidden"
-							type="file"
-							name="imagenes"
-							id="imagenes"
-							accept=".jpg, .jpeg, .png"
-							onChange={(e) =>
-								setImages((prev) => [...prev, e.target.files[0]])
-							}
-						/>
-					</>
-				) : (
-					<p>MAXIMO 3 IMAGENES</p>
-				)}
-				<ul className="flex flex-col gap-10">
-					{images.map((image, index) => (
-						<Image key={index} image={image} evt={() => removeImage(index)} />
-					))}
-				</ul>
 				<p className="text-center my-5 text-xl font-bold">HORARIO</p>
 				{[
 					"lunes",
@@ -391,6 +364,33 @@ export const FormPage = () => {
 				>
 					FACEBOOK
 				</Contact>
+				{images.length < 3 ? (
+					<>
+						<label
+							htmlFor="imagenes"
+							className="flex justify-center items-center gap-1 cursor-pointer"
+						>
+							<Photo /> IMAGENES (MINIMO 3)
+						</label>
+						<input
+							className="hidden"
+							type="file"
+							name="imagenes"
+							id="imagenes"
+							accept=".jpg, .jpeg, .png"
+							onChange={(e) =>
+								setImages((prev) => [...prev, e.target.files[0]])
+							}
+						/>
+					</>
+				) : (
+					<p>MAXIMO 3 IMAGENES</p>
+				)}
+				<ul className="flex flex-col gap-10">
+					{images.map((image, index) => (
+						<Image key={index} image={image} evt={() => removeImage(index)} />
+					))}
+				</ul>
 				<div className="flex justify-between">
 					<button
 						onClick={handleCancel}

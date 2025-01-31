@@ -67,7 +67,7 @@ export const ProfilePage = () => {
 
 				<Link
 					to="/add"
-					className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors absolute bottom-5 right-5 hover:bg-blue-600"
+					className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors fixed bottom-5 right-5 hover:bg-blue-600"
 				>
 					<More /> AÑADIR
 				</Link>

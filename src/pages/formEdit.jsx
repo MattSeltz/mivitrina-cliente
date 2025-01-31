@@ -224,7 +224,7 @@ export const FormEditPage = () => {
 				navigate(`/vitrina/${slug}`);
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al editar la vitrina");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
@@ -302,15 +302,6 @@ export const FormEditPage = () => {
 					UBICACIÓN
 				</Input>
 
-				<ul className="flex flex-col gap-10">
-					{images?.map((image) => (
-						<Image
-							key={image.id}
-							image={image}
-							evt={(e) => handleClickUpdateImages(image.id, e.target.files[0])}
-						/>
-					))}
-				</ul>
 				<p className="text-center my-5 text-xl font-bold">HORARIO</p>
 				{[
 					"lunes",
@@ -374,6 +365,15 @@ export const FormEditPage = () => {
 				>
 					FACEBOOK
 				</Contact>
+				<ul className="flex flex-col gap-10">
+					{images?.map((image) => (
+						<Image
+							key={image.id}
+							image={image}
+							evt={(e) => handleClickUpdateImages(image.id, e.target.files[0])}
+						/>
+					))}
+				</ul>
 
 				<div className="flex justify-between">
 					<button

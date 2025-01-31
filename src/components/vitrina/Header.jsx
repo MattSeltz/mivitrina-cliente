@@ -5,7 +5,7 @@ import { Edit } from "../../icons/Edit";
 import { Cross } from "../../icons/Cross";
 import { Hamburguer } from "../../icons/Hamburguer";
 
-export const Header = ({ site, isNotOpen, setIsNotOpen, slug }) => {
+export const Header = ({ isNotOpen, setIsNotOpen, slug }) => {
 	return (
 		<>
 			<div className="gap-5 hidden absolute right-10 md:flex">
@@ -43,7 +43,7 @@ export const Header = ({ site, isNotOpen, setIsNotOpen, slug }) => {
 						</button>
 						<li>
 							<Link
-								to={`/vitrina/${site?._id}/edit`}
+								to={`/vitrina/${slug}/edit`}
 								className="flex gap-1 justify-center items-center shadow-sm shadow-black rounded-md bg-blue-500 p-3 tracking-widest transition-colors hover:bg-blue-600"
 							>
 								<Edit /> EDITAR

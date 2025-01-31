@@ -41,12 +41,7 @@ export const VitrinaPage = () => {
 	) : (
 		<main className="flex flex-col gap-10 p-10">
 			{userId === site?.user._id && (
-				<Header
-					site={site}
-					isNotOpen={isNotOpen}
-					setIsNotOpen={setIsNotOpen}
-					slug={slug}
-				/>
+				<Header isNotOpen={isNotOpen} setIsNotOpen={setIsNotOpen} slug={slug} />
 			)}
 
 			<h1 className="text-center text-xl font-bold tracking-wide">

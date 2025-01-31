@@ -83,7 +83,7 @@ export const EditPage = () => {
 				navigate("/profile");
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al editar el usuario");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
@@ -112,7 +112,7 @@ export const EditPage = () => {
 				setSites(filteredSites);
 			} else {
 				setShowAlert(true);
-				setMessageOfAlert("Ocurrió un error al eliminar el sitio");
+				setMessageOfAlert(res[1].error);
 				setTypeOfAlert("error");
 			}
 		} catch (error) {
@@ -144,7 +144,7 @@ export const EditPage = () => {
 					sessionStorage.removeItem("id");
 				} else {
 					setShowAlert(true);
-					setMessageOfAlert("Ocurrió un error al eliminar tu usuario");
+					setMessageOfAlert(res[1].error);
 					setTypeOfAlert("error");
 				}
 			}
