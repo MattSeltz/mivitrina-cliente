@@ -123,7 +123,7 @@ export const SignUpPage = () => {
 						type="checkbox"
 						id="tcp"
 						name="tcp"
-						value={tcp}
+						checked={tcp}
 						onChange={(e) => setTcp(e.target.checked)}
 					/>
 					<label htmlFor="tcp">
@@ -133,7 +133,7 @@ export const SignUpPage = () => {
 							target="_blank"
 							className="text-blue-500 transition-colors hover:text-blue-600"
 						>
-							terminos y condiciones
+							terminos y condiciones{" "}
 						</a>
 						y las{" "}
 						<a
