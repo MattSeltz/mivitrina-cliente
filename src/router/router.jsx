@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Router, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 
 import { useUserContext } from "../contexts/UserContext";
@@ -18,7 +18,7 @@ import { PrivacidadPage } from "../pages/privacidad";
 import { SoportePage } from "../pages/soporte";
 import { PreguntasPage } from "../pages/preguntas";
 
-export const Router = () => {
+export const RouterHandler = () => {
 	const { userId, setUserId } = useUserContext();
 
 	useEffect(() => {
@@ -30,25 +30,27 @@ export const Router = () => {
 	}, []);
 
 	return (
-		<Routes>
-			<Route path="*" element={<NotFound />} />
-			{userId && (
-				<>
-					<Route path="/profile" element={<ProfilePage />} />
-					<Route path="/add" element={<FormPage />} />
-					<Route path="/edit" element={<EditPage />} />
-					<Route path="/vitrina/:slug/edit" element={<FormEditPage />} />
-				</>
-			)}
-			<Route path="/recovery" element={<RecoveryPage />} />
-			<Route path="/signUp" element={<SignUpPage />} />
-			<Route path="/signIn" element={<SignInPage />} />
-			<Route path="/vitrina/:slug" element={<VitrinaPage />} />
-			<Route path="/" element={<HomePage />} />
-			<Route path="/terminos" element={<TerminosPage />} />
-			<Route path="/privacidad" element={<PrivacidadPage />} />
-			<Route path="/soporte" element={<SoportePage />} />
-			<Route path="/preguntas" element={<PreguntasPage />} />
-		</Routes>
+		<Router>
+			<Routes>
+				<Route path="*" element={<NotFound />} />
+				{userId && (
+					<>
+						<Route path="/profile" element={<ProfilePage />} />
+						<Route path="/add" element={<FormPage />} />
+						<Route path="/edit" element={<EditPage />} />
+						<Route path="/vitrina/:slug/edit" element={<FormEditPage />} />
+					</>
+				)}
+				<Route path="/recovery" element={<RecoveryPage />} />
+				<Route path="/signUp" element={<SignUpPage />} />
+				<Route path="/signIn" element={<SignInPage />} />
+				<Route path="/vitrina/:slug" element={<VitrinaPage />} />
+				<Route path="/" element={<HomePage />} />
+				<Route path="/terminos" element={<TerminosPage />} />
+				<Route path="/privacidad" element={<PrivacidadPage />} />
+				<Route path="/soporte" element={<SoportePage />} />
+				<Route path="/preguntas" element={<PreguntasPage />} />
+			</Routes>
+		</Router>
 	);
 };
