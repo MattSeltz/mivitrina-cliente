@@ -1,4 +1,4 @@
-import { Router, Routes, Route } from "react-router-dom";
+import {  Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 
 import { useUserContext } from "../contexts/UserContext";
@@ -18,7 +18,7 @@ import { PrivacidadPage } from "../pages/privacidad";
 import { SoportePage } from "../pages/soporte";
 import { PreguntasPage } from "../pages/preguntas";
 
-export const RouterHandler = () => {
+export const Router = () => {
 	const { userId, setUserId } = useUserContext();
 
 	useEffect(() => {
@@ -30,7 +30,6 @@ export const RouterHandler = () => {
 	}, []);
 
 	return (
-		<Router>
 			<Routes>
 				<Route path="*" element={<NotFound />} />
 				{userId && (
@@ -51,6 +50,5 @@ export const RouterHandler = () => {
 				<Route path="/soporte" element={<SoportePage />} />
 				<Route path="/preguntas" element={<PreguntasPage />} />
 			</Routes>
-		</Router>
 	);
 };
