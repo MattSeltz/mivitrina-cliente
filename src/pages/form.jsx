@@ -97,6 +97,7 @@ export const FormPage = () => {
 		instagram: "",
 		facebook: "",
 	});
+	const [url, setUrl] = useState(null);
 
 	const reset = () => {
 		setTitle("");
@@ -239,6 +240,7 @@ export const FormPage = () => {
 				setShowAlert(true);
 				setMessageOfAlert("Registrando sitio...");
 				setTypeOfAlert("success");
+				setUrl(title.split(" ").join("").toLowerCase());
 				reset();
 				setIsModalOpen(true);
 			} else {
@@ -270,7 +272,7 @@ export const FormPage = () => {
 				/>
 			)}
 			<URLModal
-				url={"http://localhost:5173/vitrina/lorem"}
+				url={`https://mivitrina-cliente.onrender.com/vitrina/${url}`}
 				isOpen={isModalOpen}
 			/>
 			<form
